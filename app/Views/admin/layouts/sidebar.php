@@ -10,7 +10,7 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link <?= uri_string() == '/' ? 'active' : '' ?>" href="<?= base_url('/'); ?>">
+                <a class="nav-link <?= uri_string() == 'dashboard' ? 'active' : '' ?>" href="<?= base_url('dashboard'); ?>">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>shop </title>
@@ -50,7 +50,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link  " href="<?= base_url(); ?>/pages/billing.html">
+                <a class="nav-link " href="#">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>credit-card</title>
@@ -70,7 +70,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link  " href="<?= base_url(); ?>/pages/virtual-reality.html">
+                <a class="nav-link  " href="#">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>box-3d-50</title>
@@ -91,7 +91,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link  " href="<?= base_url(); ?>/pages/rtl.html">
+                <a class="nav-link  " href="#">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>settings</title>
@@ -115,7 +115,7 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link  " href="<?= base_url(); ?>/pages/profile.html">
+                <a class="nav-link  " href="#">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>customer-support</title>
@@ -136,7 +136,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link  " href="<?= base_url(); ?>/pages/sign-in.html">
+                <a class="nav-link  " href="#">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>document</title>
@@ -156,7 +156,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link  " href="<?= base_url(); ?>/pages/sign-up.html">
+                <a class="nav-link  " href="#">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="20px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>spaceship</title>
@@ -180,6 +180,6 @@
         </ul>
     </div>
     <div class="sidenav-footer mx-3 ">
-        <a role="button" class="btn bg-gradient-danger w-100" href="<?= base_url('logout'); ?>"><i class="fa fa-sign-out"></i> Sign Out</a>
+        <a role="button" class="btn bg-gradient-danger w-100" href="#"><i class="fa fa-sign-out"></i> Sign Out</a>
     </div>
 </aside>
