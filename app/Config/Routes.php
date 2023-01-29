@@ -31,16 +31,16 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 
 //Routes Login
-$routes->get('/', 'LoginController::index');
+// $routes->get('/', 'LoginController::index');
 
 //Routes Dashboard
-$routes->get('/dashboard', 'DashboardController::index');
+$routes->get('/', 'DashboardController::index');
 
 //Routes Supplier
-$routes->get('supplier', 'SupplierController::index');
-$routes->post('supplier/store', 'SupplierController::store');
-$routes->put('supplier/update/(:num)', 'SupplierController::update/$1');
-$routes->delete('supplier/destroy/(:num)', 'SupplierController::destroy/$1');
+$routes->get('supplier', 'SupplierController::index', ['filter' => 'role:admin,owner']);
+$routes->post('supplier/store', 'SupplierController::store', ['filter' => 'role:admin']);
+$routes->put('supplier/update/(:num)', 'SupplierController::update/$1', ['filter' => 'role:admin']);
+$routes->delete('supplier/destroy/(:num)', 'SupplierController::destroy/$1', ['filter' => 'role:admin']);
 /*
  * --------------------------------------------------------------------
  * Additional Routing

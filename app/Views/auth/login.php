@@ -11,32 +11,48 @@
                             <div class="card-header pb-0 text-left bg-transparent">
                                 <h3 class="font-weight-bolder text-info text-gradient">Welcome back</h3>
                                 <p class="mb-0">Enter your email and password to sign in</p>
+                                <br>
+                                <?= view('Myth\Auth\Views\_message_block') ?>
                             </div>
                             <div class="card-body">
-                                <form role="form">
+                                <form action="<?= url_to('login') ?>" method="post" role="form">
+                                    <?= csrf_field() ?>
                                     <label>Email</label>
                                     <div class="mb-3">
-                                        <input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon">
+                                        <input type="email" class="form-control <?php if (session('errors.login')) : ?>is-invalid<?php endif ?>" placeholder="Email" aria-label="Email" aria-describedby="email-addon" name="login">
+                                        <div class="invalid-feedback">
+                                            <?= session('errors.login') ?>
+                                        </div>
                                     </div>
                                     <label>Password</label>
                                     <div class="mb-3">
-                                        <input type="email" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon">
+                                        <input type="password" class="form-control <?php if (session('errors.password')) : ?>is-invalid<?php endif ?>" placeholder="Password" aria-label="Password" aria-describedby="password-addon" name="password">
+                                        <div class="invalid-feedback">
+                                            <?= session('errors.password') ?>
+                                        </div>
                                     </div>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="rememberMe" checked="">
-                                        <label class="form-check-label" for="rememberMe">Remember me</label>
-                                    </div>
+                                    <?php if ($config->allowRemembering) : ?>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="rememberMe" <?php if (old('remember')) : ?> checked="" <?php endif ?> name="remember">
+                                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                                        </div>
+                                    <?php endif; ?>
                                     <div class="text-center">
-                                        <button type="button" class="btn bg-gradient-info w-100 mt-4 mb-0">Sign in</button>
+                                        <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">Sign in</button>
                                     </div>
                                 </form>
                             </div>
-                            <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                                <p class="mb-4 text-sm mx-auto">
-                                    Don't have an account?
-                                    <a href="javascript:;" class="text-info text-gradient font-weight-bold">Sign up</a>
-                                </p>
-                            </div>
+                            <?php if ($config->allowRegistration) : ?>
+                                <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                                    <p class="mb-4 text-sm mx-auto">
+                                        Don't have an account?
+                                        <a href="<?= url_to('register') ?>" class="text-info text-gradient font-weight-bold">Sign up</a>
+                                    </p>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($config->activeResetter) : ?>
+                                <p><a href="<?= url_to('forgot') ?>"><?= lang('Auth.forgotYourPassword') ?></a></p>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="col-md-6">

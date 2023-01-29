@@ -4,12 +4,12 @@
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header pb-0">
-                <h6>Data Supplier</h6>
-                <a role="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#create-data"><i class="fas fa-edit"></i> Tambah Data</a>
+                <h6>Data Supplier </h6>
+                <a role="button" id="createData" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#create-data"><i class="fas fa-edit"></i> Tambah Data</a>
                 <?= view('admin\layouts\message-block'); ?>
+                <?php $validation = \Config\Services::validation(); ?>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
-
                 <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0">
                         <thead>
@@ -58,7 +58,7 @@
                                         </div>
                                     </td>
                                     <td class="align-middle">
-                                        <a role="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#editData<?= $sup->id_sup; ?>"><i class="fas fa-edit"></i> Edit Data</a>
+                                        <a role="button" class="btn btn-info" data-bs-target="#editData" data-bs-toggle="modal" data-id="<?= $sup->id_sup; ?>" data-nama="<?= $sup->nama_sup; ?>" data-alamat="<?= $sup->alamat_sup; ?>" data-hp="<?= $sup->no_hp; ?>"><i class="fas fa-edit"></i> Edit Data</a>
                                         <a role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteData<?= $sup->id_sup; ?>"><i class="fas fa-trash"></i>
                                             Delete Data
                                         </a>
@@ -90,15 +90,24 @@
                     <?= csrf_field(); ?>
                     <label>Nama Supplier</label>
                     <div class="input-group mb-3">
-                        <input type="text" name="nama_sup" id="nama_sup" class="form-control" placeholder="Nama Supplier" required>
+                        <input type="text" name="nama_sup" id="nama_sup" class="form-control <?= (validation_show_error('nama_sup') != '') ? 'is-invalid' : ''; ?>" placeholder="Nama Supplier">
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('nama_sup') ?>
+                        </div>
                     </div>
                     <label>Alamat Supplier</label>
                     <div class="input-group mb-3">
-                        <input type="text" name="alamat_sup" id="alamat_sup" class="form-control" placeholder="Alamat Supplier" required>
+                        <input type="text" name="alamat_sup" id="alamat_sup" class="form-control <?= (validation_show_error('alamat_sup') != '') ? 'is-invalid' : ''; ?>" placeholder="Alamat Supplier">
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('alamat_sup') ?>
+                        </div>
                     </div>
                     <label>No. Handphone</label>
                     <div class="input-group mb-3">
-                        <input type="text" name="no_hp" id="no_hp" maxlength="12" class="form-control" placeholder="No.Handphone" required pattern="^[0-9]*$">
+                        <input type="text" name="no_hp" id="no_hp" maxlength="12" class="form-control <?= (validation_show_error('no_hp') != '') ? 'is-invalid' : ''; ?>" placeholder="No.Handphone" pattern="^[0-9]*$">
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('no_hp') ?>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn bg-gradient-info"> <i class="fas fa-save"></i> Simpan Data</button>
@@ -111,7 +120,7 @@
 
 <!-- Modal Edit Data -->
 <?php foreach ($supplier as $sup) : ?>
-    <div class="modal fade" id="editData<?= $sup->id_sup; ?>" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+    <div class="modal fade" id="editData" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -121,20 +130,29 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form role="form text-left" action="<?= base_url('supplier/update/' . $sup->id_sup); ?>" method="post">
+                    <form id="formInput" role="form text-left" action="<?= base_url('supplier/update/' . $sup->id_sup); ?>" method="post">
                         <?= csrf_field(); ?>
                         <input type="hidden" name="_method" value="PUT">
                         <label>Nama Supplier</label>
                         <div class="input-group mb-3">
-                            <input type="text" name="nama_sup" id="nama_sup" class="form-control" placeholder="Nama Supplier" required value="<?= $sup->nama_sup; ?>">
+                            <input type="text" name="nama_sup" id="nama_sup" class="form-control <?= (validation_show_error('nama') != '') ? 'is-invalid' : ''; ?>" placeholder="Nama Supplier" required value="<?= old('nama_sup', $sup->nama_sup); ?>">
+                            <div class="invalid-feedback">
+                                <?= validation_show_error('nama_sup') ?>
+                            </div>
                         </div>
                         <label>Alamat Supplier</label>
                         <div class="input-group mb-3">
-                            <input type="text" name="alamat_sup" id="alamat_sup" class="form-control" placeholder="Alamat Supplier" required value="<?= $sup->alamat_sup; ?>">
+                            <input type="text" name="alamat_sup" id="alamat_sup" class="form-control <?= (validation_show_error('alamat_sup') != '') ? 'is-invalid' : ''; ?>" placeholder="Alamat Supplier" required value="<?= old('alamat_sup', $sup->alamat_sup); ?>">
+                            <div class="invalid-feedback">
+                                <?= validation_show_error('alamat_sup') ?>
+                            </div>
                         </div>
                         <label>No. Handphone</label>
                         <div class="input-group mb-3">
-                            <input type="text" name="no_hp" id="no_hp" maxlength="12" class="form-control" placeholder="No.Handphone" required pattern="^[0-9]*$" value="<?= $sup->no_hp; ?>">
+                            <input type="text" name="no_hp" id="no_hp" maxlength="12" class="form-control <?= (validation_show_error('no_hp') != '') ? 'is-invalid' : ''; ?>" placeholder="No.Handphone" required pattern="^[0-9]*$" value="<?= old('no_hp', $sup->no_hp); ?>">
+                            <div class="invalid-feedback">
+                                <?= validation_show_error('no_hp') ?>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn bg-gradient-info"> <i class="fas fa-save"></i> Simpan Data</button>
@@ -172,6 +190,21 @@
         </div>
     </div>
 <?php endforeach ?>
+<?= $this->endSection(); ?>
 
-
+<?= $this->section('script'); ?>
+<script>
+    $('#editData').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var nama = button.data('nama')
+        var alamat = button.data('alamat')
+        var noHp = button.data('hp')
+        var modal = $(this)
+        modal.find('.modal-body #formInput').attr("action", "<?= base_url(); ?>/supplier/update/" + id)
+        modal.find('.modal-body #nama_sup').val(nama)
+        modal.find('.modal-body #alamat_sup').val(alamat)
+        modal.find('.modal-body #no_hp').val(noHp)
+    });
+</script>
 <?= $this->endSection(); ?>

@@ -19,4 +19,9 @@ class SupplierModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
+
+    public function search($keyword)
+    {
+        return $this->table('supplier')->like('nama_sup', $keyword);
+    }
 }
