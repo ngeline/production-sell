@@ -22,6 +22,7 @@
     <link href="<?= base_url(); ?>/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="<?= base_url(); ?>/assets/css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
+    <?= $this->renderSection('css-internal'); ?>
 
 
 </head>

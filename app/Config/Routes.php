@@ -19,7 +19,7 @@ $routes->set404Override();
 // where controller filters or CSRF protection are bypassed.
 // If you don't want to define all routes, please use the Auto Routing (Improved).
 // Set `$autoRoutesImproved` to true in `app/Config/Feature.php` and set the following to true.
-// $routes->setAutoRoute(false);
+$routes->setAutoRoute(true);
 
 /*
  * --------------------------------------------------------------------
@@ -35,12 +35,14 @@ $routes->get('/', 'DashboardController::index');
 
 //Routes Supplier
 $routes->get('supplier', 'SupplierController::index', ['filter' => 'role:admin,owner']);
+$routes->post('supplier', 'SupplierController::index', ['filter' => 'role:admin,owner']); //to search
 $routes->post('supplier/store', 'SupplierController::store', ['filter' => 'role:admin']);
 $routes->put('supplier/update/(:num)', 'SupplierController::update/$1', ['filter' => 'role:admin']);
 $routes->delete('supplier/destroy/(:num)', 'SupplierController::destroy/$1', ['filter' => 'role:admin']);
 
 //Routes Profile
 $routes->get('profile', 'ProfileController::index');
+$routes->post('profile/(:num)', 'ProfileController::update/$1');
 
 
 /*

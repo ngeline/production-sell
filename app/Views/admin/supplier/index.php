@@ -4,9 +4,21 @@
     <div class="col-12">
         <div class="card mb-4">
             <div class="card-header pb-0">
-                <h6>Data Supplier </h6>
-                <a role="button" id="createData" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#create-data"><i class="fas fa-edit"></i> Tambah Data</a>
-                <?= view('admin\layouts\message-block'); ?>
+                <div class="row ">
+                    <div class="col-md">
+                        <h6>Data Supplier </h6>
+                        <a role="button" id="createData" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#create-data"><i class="fas fa-edit"></i> Tambah Data</a>
+                        <?= view('admin\layouts\message-block'); ?>
+                    </div>
+                    <div class="col-md">
+                        <form action="supplier" method="post">
+                            <div class="input-group mb-3">
+                                <input style="height: 45px;" type="text" class="form-control" placeholder="Masukkan keyword pencarian..." aria-label="Masukkan keyword pencarian..." name="keyword" aria-describedby="button-addon2" value="<?= $keyword; ?>">
+                                <button type="submit" name="sumbit" class="btn btn-outline-secondary" type="button" id="button-addon2">Cari</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <?php $validation = \Config\Services::validation(); ?>
             </div>
             <div class="card-body px-0 pt-0 pb-2">

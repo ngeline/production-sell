@@ -26,6 +26,7 @@ class SupplierController extends BaseController
             'supplier' => $supplier->paginate(5, 'supplier'),
             'pager' => $this->SupplierModel->pager,
             'currentPage' => $currentPage,
+            'keyword' => $keyword
         ];
 
         return view('admin/supplier/index', $data);
