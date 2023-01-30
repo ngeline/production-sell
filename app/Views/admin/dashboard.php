@@ -1,7 +1,4 @@
 <?= $this->extend('admin/layouts/index'); ?>
-<?= $this->section('pages-title'); ?>
-Dashboard
-<?= $this->endSection(); ?>
 
 <?= $this->Section('content-main'); ?>
 

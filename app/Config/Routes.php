@@ -30,9 +30,6 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
-//Routes Login
-// $routes->get('/', 'LoginController::index');
-
 //Routes Dashboard
 $routes->get('/', 'DashboardController::index');
 
@@ -41,6 +38,11 @@ $routes->get('supplier', 'SupplierController::index', ['filter' => 'role:admin,o
 $routes->post('supplier/store', 'SupplierController::store', ['filter' => 'role:admin']);
 $routes->put('supplier/update/(:num)', 'SupplierController::update/$1', ['filter' => 'role:admin']);
 $routes->delete('supplier/destroy/(:num)', 'SupplierController::destroy/$1', ['filter' => 'role:admin']);
+
+//Routes Profile
+$routes->get('profile', 'ProfileController::index');
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
