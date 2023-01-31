@@ -34,9 +34,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            $no = 1;
-                            ?>
+                            <?php $i = 1 + (5 * ($currentPage - 1)); ?>
                             <?php
                             foreach ($supplier as $sup) :
                             ?>
@@ -44,7 +42,7 @@
                                     <td>
                                         <div class="d-flex px-2 py-1">
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><?= $no++; ?></h6>
+                                                <h6 class="mb-0 text-sm"><?= $i++; ?></h6>
                                             </div>
                                         </div>
                                     </td>
@@ -82,6 +80,9 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div class="mx-3">
+                <?= $pager->links('supplier', 'customPagination') ?>
             </div>
         </div>
     </div>
@@ -147,23 +148,23 @@
                         <input type="hidden" name="_method" value="PUT">
                         <label>Nama Supplier</label>
                         <div class="input-group mb-3">
-                            <input type="text" name="nama_sup" id="nama_sup" class="form-control <?= (validation_show_error('nama') != '') ? 'is-invalid' : ''; ?>" placeholder="Nama Supplier" required value="<?= old('nama_sup', $sup->nama_sup); ?>">
+                            <input type="text" name="nama_sup_edit" id="nama_sup" class="form-control <?= (validation_show_error('nama_sup_edit') != '') ? 'is-invalid' : ''; ?>" placeholder="Nama Supplier" required value="<?= old('nama_sup_edit', $sup->nama_sup); ?>">
                             <div class="invalid-feedback">
-                                <?= validation_show_error('nama_sup') ?>
+                                <?= validation_show_error('nama_sup_edit') ?>
                             </div>
                         </div>
                         <label>Alamat Supplier</label>
                         <div class="input-group mb-3">
-                            <input type="text" name="alamat_sup" id="alamat_sup" class="form-control <?= (validation_show_error('alamat_sup') != '') ? 'is-invalid' : ''; ?>" placeholder="Alamat Supplier" required value="<?= old('alamat_sup', $sup->alamat_sup); ?>">
+                            <input type="text" name="alamat_sup_edit" id="alamat_sup" class="form-control <?= (validation_show_error('alamat_sup_edit') != '') ? 'is-invalid' : ''; ?>" placeholder="Alamat Supplier" required value="<?= old('alamat_sup_edit', $sup->alamat_sup); ?>">
                             <div class="invalid-feedback">
                                 <?= validation_show_error('alamat_sup') ?>
                             </div>
                         </div>
                         <label>No. Handphone</label>
                         <div class="input-group mb-3">
-                            <input type="text" name="no_hp" id="no_hp" maxlength="12" class="form-control <?= (validation_show_error('no_hp') != '') ? 'is-invalid' : ''; ?>" placeholder="No.Handphone" required pattern="^[0-9]*$" value="<?= old('no_hp', $sup->no_hp); ?>">
+                            <input type="text" name="no_hp_edit" id="no_hp" maxlength="12" class="form-control <?= (validation_show_error('no_hp_edit') != '') ? 'is-invalid' : ''; ?>" placeholder="No.Handphone" required pattern="^[0-9]*$" value="<?= old('no_hp_edit', $sup->no_hp); ?>">
                             <div class="invalid-feedback">
-                                <?= validation_show_error('no_hp') ?>
+                                <?= validation_show_error('no_hp_edit') ?>
                             </div>
                         </div>
                         <div class="modal-footer">

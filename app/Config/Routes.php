@@ -45,8 +45,11 @@ $routes->get('profile', 'ProfileController::index');
 $routes->post('profile/(:num)', 'ProfileController::update/$1');
 
 //Routes Produksi
-$routes->get('produksi', 'ProduksiController::index');
-$routes->get('produksi/detail-produksi', 'ProduksiController::detail');
+$routes->get('produksi', 'ProduksiController::index', ['filter' => 'role:pegawai']);
+$routes->post('produksi', 'ProduksiController::index', ['filter' => 'role:pegawai']); //to search
+$routes->post('produksi/store', 'ProduksiController::store', ['filter' => 'role:pegawai']);
+$routes->delete('produksi/destroy/(:num)', 'ProduksiController::destroy/$1', ['filter' => 'role:pegawai']);
+$routes->get('produksi/detail-produksi', 'ProduksiController::detail',  ['filter' => 'role:pegawai']);
 
 //Routes Opname
 $routes->get('opname', 'OpnameController::index');

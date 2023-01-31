@@ -53,7 +53,7 @@ class SupplierController extends BaseController
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
-            return redirect()->back()->withInput();
+            return redirect()->back()->withInput()->with('error', $validation->listErrors());
         }
 
         $this->SupplierModel->save([
@@ -68,30 +68,30 @@ class SupplierController extends BaseController
     {
         $validation = \Config\Services::validation();
         $validation->setRules([
-            'nama_sup' => 'required|is_unique[supplier.nama_sup]',
-            'alamat_sup' => 'required',
-            'no_hp' => 'required',
+            'nama_sup_edit' => 'required|is_unique[supplier.nama_sup]',
+            'alamat_sup_edit' => 'required',
+            'no_hp_edit' => 'required',
         ], [
-            'nama_sup' => [
+            'nama_sup_edit' => [
                 'required' => 'Nama harus diisi',
                 'is_unique' => 'Nama supplier sudah terdaftar'
             ],
-            'alamat_sup' => [
+            'alamat_sup_edit' => [
                 'required' => 'Alamat harus diisi'
             ],
-            'no_hp' => [
+            'no_hp_edit' => [
                 'required' => 'Nomor HP harus diisi'
             ],
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
-            return redirect()->back()->withInput();
+            return redirect()->back()->withInput()->with('error', $validation->listErrors());
         }
 
         $data = [
-            'nama_sup' => esc($this->request->getPost('nama_sup')),
-            'alamat_sup' => esc($this->request->getPost('alamat_sup')),
-            'no_hp' => esc($this->request->getPost('no_hp')),
+            'nama_sup_edit' => esc($this->request->getPost('nama_sup_edit')),
+            'alamat_sup_edit' => esc($this->request->getPost('alamat_sup_edit')),
+            'no_hp_edit' => esc($this->request->getPost('no_hp_edit')),
         ];
         $this->SupplierModel->update($id_sup, $data);
 
