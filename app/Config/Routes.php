@@ -44,6 +44,12 @@ $routes->delete('supplier/destroy/(:num)', 'SupplierController::destroy/$1', ['f
 $routes->get('profile', 'ProfileController::index');
 $routes->post('profile/(:num)', 'ProfileController::update/$1');
 
+//Routes Produksi
+$routes->get('produksi', 'ProduksiController::index');
+$routes->get('produksi/detail-produksi', 'ProduksiController::detail');
+
+//Routes Opname
+$routes->get('opname', 'OpnameController::index');
 
 /*
  * --------------------------------------------------------------------

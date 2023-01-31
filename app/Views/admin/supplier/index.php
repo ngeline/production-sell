@@ -6,7 +6,7 @@
             <div class="card-header pb-0">
                 <div class="row ">
                     <div class="col-md">
-                        <h6>Data Supplier </h6>
+                        <h6><?= $title; ?></h6>
                         <a role="button" id="createData" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#create-data"><i class="fas fa-edit"></i> Tambah Data</a>
                         <?= view('admin\layouts\message-block'); ?>
                     </div>
