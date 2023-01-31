@@ -89,7 +89,7 @@ class ProduksiController extends BaseController
     public function detail()
     {
         $data = [
-            'title' => 'Detail Produksi',
+            'title' => 'Detail Proses Produksi',
         ];
         return view('admin/produksi/detail', $data);
     }
