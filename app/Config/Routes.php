@@ -54,6 +54,9 @@ $routes->get('produksi/detail-produksi', 'ProduksiController::detail',  ['filter
 //Routes Opname
 $routes->get('opname', 'OpnameController::index');
 
+//Routes Penjualan
+$routes->get('penjualan', 'PenjualanController::index');
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
