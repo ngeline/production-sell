@@ -78,7 +78,7 @@
                                         </div>
                                     </td>
                                     <td class="align-middle">
-                                        <a role="button" class="btn btn-info" href="<?= base_url('produksi/detail-produksi'); ?>"><i class="fas fa-truck"></i> Detail Proses</a>
+                                        <a role="button" class="btn btn-info" href="produksi/detail-produksi/<?= $pro['id_pro']; ?>"><i class="fas fa-truck"></i> Detail Proses</a>
                                         <a role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteData<?= $pro['id_pro']; ?>"><i class="fas fa-trash"></i>
                                             Delete Data
                                         </a>
@@ -118,14 +118,32 @@
                     </div>
                     <label>Bahan</label>
                     <div class="input-group mb-3">
-                        <input type="text" name="bahan" id="bahan" class="form-control <?= (validation_show_error('bahan') != '') ? 'is-invalid' : ''; ?>" placeholder="Masukkan bahan yang dibutuhkan">
+                        <select type="text" name="bahan" id="bahan" class="form-control <?= (validation_show_error('bahan') != '') ? 'is-invalid' : ''; ?>">
+                            <option value="" selected disabled>-Pilih-</option>
+                            <option value="Cotton Combed">Cotton Combed</option>
+                            <option value="Cotton Carded">Cotton Carded</option>
+                            <option value="Polyester">Polyester</option>
+                            <option value="Teteron Cotton">Teteron Cotton</option>
+                            <option value="Cotton Modal">Cotton Modal</option>
+                            <option value="Cotton Bamboo">Cotton Bamboo</option>
+                            <option value="Cotton Supima">Cotton Supima</option>
+                            <option value="Cotton Tri-blend">Cotton Tri-blend</option>
+                        </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('bahan') ?>
                         </div>
                     </div>
                     <label>Ukuran</label>
                     <div class="input-group mb-3">
-                        <input type="text" name="ukuran" id="ukuran" maxlength="12" class="form-control <?= (validation_show_error('ukuran') != '') ? 'is-invalid' : ''; ?>" placeholder="Masukkan ukuran">
+                        <select type="text" name="ukuran" id="ukuran" maxlength="12" class="form-control <?= (validation_show_error('ukuran') != '') ? 'is-invalid' : ''; ?>">
+                            <option value="" selected disabled>-Pilih-</option>
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                            <option value="XXL">XXL</option>
+                            <option value="XXXL">XXXL</option>
+                        </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('ukuran') ?>
                         </div>

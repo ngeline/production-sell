@@ -121,4 +121,11 @@ class UserModel extends Model
             'password' => bin2hex(random_bytes(16)),
         ]);
     }
+
+    public function userRole()
+    {
+        return $this->select('ag.name as nameRole')
+            ->join('auth_groups_users agu', 'users.id=agu.user_id')
+            ->join('auth_groups ag', 'ag.id=agu.group_id');
+    }
 }

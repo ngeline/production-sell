@@ -86,10 +86,11 @@ class ProduksiController extends BaseController
         return redirect()->back()->with('success', 'Data Produksi Berhasil Ditambahkan');
     }
 
-    public function detail()
+    public function detail($id)
     {
         $data = [
             'title' => 'Detail Proses Produksi',
+            'pro' => $this->ProduksiModel->where('id_pro', $id)->first(),
         ];
         return view('admin/produksi/detail', $data);
     }

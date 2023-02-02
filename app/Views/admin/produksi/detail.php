@@ -10,32 +10,32 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="disabledInput">Nama Barang</label>
-                    <input type="text" class="form-control" readonly value="Ciki tahu">
+                    <input type="text" class="form-control" readonly value="<?= $pro['nama_brg']; ?>">
                 </div>
 
                 <div class="form-group">
                     <label for="disabledInput">Bahan</label>
-                    <input type="text" class="form-control" readonly value="Smoke Beef">
+                    <input type="text" class="form-control" readonly value="<?= $pro['bahan']; ?>">
                 </div>
 
                 <div class="form-group">
                     <label for="disabledInput">Ukuran</label>
-                    <input type="text" class="form-control" readonly value="XL XL PIW">
+                    <input type="text" class="form-control" readonly value="<?= $pro['ukuran']; ?>">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="disabledInput">Harga</label>
-                    <input type="text" class="form-control" readonly value="Rp.500.000.0000.0000">
+                    <input type="text" class="form-control" readonly value="<?= $pro['harga']; ?>">
                 </div>
                 <div class="form-group">
                     <label for="disabledInput">Jumlah</label>
-                    <input type="text" class="form-control" readonly value="10 Saja">
+                    <input type="text" class="form-control" readonly value="<?= $pro['jmlh_brg']; ?>">
                 </div>
 
                 <div class="form-group">
                     <label for="disabledInput">Keterangan</label>
-                    <input type="text" class="form-control" readonly value="Enak">
+                    <textarea type="text" class="form-control" readonly><?= $pro['ket']; ?></textarea>
                 </div>
             </div>
         </div>
@@ -57,10 +57,10 @@
                             </div>
                         </div>
                         <ul id="progressbar-2" class="d-flex justify-content-between mx-0 mt-0 mb-5 px-0 pt-0 pb-2">
-                            <li class="step0 active text-center" id="step1"></li>
-                            <li class="step0 active text-center" id="step2"></li>
-                            <li class="step0 active text-center" id="step3"></li>
-                            <li class="step0 text-muted text-end" id="step4"></li>
+                            <li class="step0 <?= $pro['proses1'] != null ? 'active' : '' ?> active text-center" id="step1"></li>
+                            <li class="step0 <?= $pro['proses2'] != null ? 'active' : '' ?> active text-center" id="step2"></li>
+                            <li class="step0 <?= $pro['proses3'] != null ? 'active' : '' ?> active text-center" id="step3"></li>
+                            <li class="step0 active text-center" id="step4"></li>
                         </ul>
                         <div class="d-flex justify-content-between">
                             <div class="d-lg-flex align-items-center">
@@ -221,6 +221,7 @@
     #progressbar-2 li:nth-child(4) {
         left: 0;
         width: 37px;
+
     }
 
     #progressbar-2 li:nth-child(4):after {
