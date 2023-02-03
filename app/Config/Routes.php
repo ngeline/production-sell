@@ -19,7 +19,7 @@ $routes->set404Override();
 // where controller filters or CSRF protection are bypassed.
 // If you don't want to define all routes, please use the Auto Routing (Improved).
 // Set `$autoRoutesImproved` to true in `app/Config/Feature.php` and set the following to true.
-$routes->setAutoRoute(true);
+$routes->setAutoRoute(false);
 
 /*
  * --------------------------------------------------------------------
@@ -50,9 +50,15 @@ $routes->post('produksi', 'ProduksiController::index', ['filter' => 'role:pegawa
 $routes->post('produksi/store', 'ProduksiController::store', ['filter' => 'role:pegawai']);
 $routes->delete('produksi/destroy/(:num)', 'ProduksiController::destroy/$1', ['filter' => 'role:pegawai']);
 $routes->get('produksi/detail-produksi/(:num)', 'ProduksiController::detail/$1',  ['filter' => 'role:pegawai']);
+$routes->post('produksi/updateProses/(:num)', 'ProduksiController::updateProses/$1', ['filter' => 'role:pegawai']);
+$routes->post('produksi/update/(:num)', 'ProduksiController::update/$1', ['filter' => 'role:pegawai']);
 
 //Routes Opname
-$routes->get('opname', 'OpnameController::index');
+$routes->get('opname', 'OpnameController::index', ['filter' => 'role:pegawai']);
+$routes->post('opname', 'OpnameController::index', ['filter' => 'role:pegawai']); //to search
+$routes->post('opname/store', 'OpnameController::store', ['filter' => 'role:pegawai']);
+$routes->post('opname/update/(:num)', 'OpnameController::update/$1', ['filter' => 'role:pegawai']);
+
 
 //Routes Penjualan
 $routes->get('penjualan', 'PenjualanController::index');

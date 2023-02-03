@@ -1,5 +1,14 @@
 <?= $this->extend('admin/layouts/index'); ?>
 
+<?= $this->section('breadcrumbs'); ?>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/">Dashboard /</a></li>
+    </ol>
+    <h6 class="font-weight-bolder mb-0">Produksi</h6>
+</nav>
+<?= $this->endSection(); ?>
+
 <?= $this->section('content-main'); ?>
 <div class="row">
     <div class="col-12">
@@ -9,7 +18,6 @@
                     <div class="col-md">
                         <h6><?= $title; ?></h6>
                         <a role="button" id="createData" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#create-data"><i class="fas fa-edit"></i> Tambah Data</a>
-                        <?= view('admin\layouts\message-block'); ?>
                     </div>
                     <div class="col-md">
                         <form action="produksi" method="post">
@@ -20,6 +28,7 @@
                         </form>
                     </div>
                 </div>
+                <?= view('admin\layouts\message-block'); ?>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
                 <div class="table-responsive p-0">
@@ -33,6 +42,8 @@
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bahan</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ukuran</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Produksi</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
                                     </tr>
                                 </thead>
@@ -77,6 +88,21 @@
                                             </div>
                                         </div>
                                     </td>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm"><?php echo date('d F Y', strtotime($pro['tgl_pro'])); ?></h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm"><?= $pro['status']; ?></h6>
+                                            </div>
+                                        </div>
+                                    </td>
+
                                     <td class="align-middle">
                                         <a role="button" class="btn btn-info" href="produksi/detail-produksi/<?= $pro['id_pro']; ?>"><i class="fas fa-truck"></i> Detail Proses</a>
                                         <a role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteData<?= $pro['id_pro']; ?>"><i class="fas fa-trash"></i>

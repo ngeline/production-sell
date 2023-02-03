@@ -4,14 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ProduksiModel extends Model
+class OpnameModel extends Model
 {
-    protected $table            = 'produksi';
-    protected $primaryKey       = 'id_pro';
+    protected $table            = 'opname';
+    protected $primaryKey       = 'id_opn';
+    protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'tgl_pro', 'nama_brg', 'bahan', 'ukuran', 'jmlh_brg', 'harga', 'ket', 'proses1', 'proses2', 'proses3', 'status'
+        'id_pro', 'tgl_opn', 'nama_opn', 'jmlh_opn', 'ket_opn'
     ];
 
     // Dates
@@ -22,6 +23,6 @@ class ProduksiModel extends Model
 
     public function search($keyword)
     {
-        return $this->table('produksi')->like('nama_brg', $keyword);
+        return $this->table('opname')->like('nama_opn', $keyword);
     }
 }

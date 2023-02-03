@@ -1,7 +1,12 @@
 <?= $this->extend('admin/layouts/index'); ?>
 
-<?= $this->Section('content-main'); ?>
+<?= $this->section('breadcrumbs'); ?>
+<nav aria-label="breadcrumb">
+    <h6 class="font-weight-bolder mb-0"><?= $title; ?></h6>
+</nav>
+<?= $this->endSection(); ?>
 
+<?= $this->Section('content-main'); ?>
 <div class="row">
     <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         <div class="card">

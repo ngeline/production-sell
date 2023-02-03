@@ -54,6 +54,11 @@ class Produksi extends Migration
                 'type' => 'date',
                 'null' => true,
             ],
+            'status' => [
+                'type' => 'VARCHAR',
+                'constraint' => 35,
+                'null' => true,
+            ],
             'created_at' => [
                 'type' => 'datetime',
                 'null' => true
