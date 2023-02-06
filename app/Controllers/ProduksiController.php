@@ -44,7 +44,6 @@ class ProduksiController extends BaseController
             'ukuran' => 'required',
             'jmlh_brg' => 'required',
             'harga' => 'required',
-            'ket' => 'required',
             'tgl_pro' => 'required',
         ], [
             'nama_brg' => [
@@ -61,9 +60,6 @@ class ProduksiController extends BaseController
             ],
             'harga' => [
                 'required' => 'Harga harus diisi'
-            ],
-            'ket' => [
-                'required' => 'Keterangan harus diisi'
             ],
             'tgl_pro' => [
                 'required' => 'Tanggal produksi harus diisi'

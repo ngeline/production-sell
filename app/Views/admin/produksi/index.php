@@ -146,14 +146,9 @@
                     <div class="input-group mb-3">
                         <select type="text" name="bahan" id="bahan" class="form-control <?= (validation_show_error('bahan') != '') ? 'is-invalid' : ''; ?>">
                             <option value="" selected disabled>-Pilih-</option>
-                            <option value="Cotton Combed">Cotton Combed</option>
-                            <option value="Cotton Carded">Cotton Carded</option>
-                            <option value="Polyester">Polyester</option>
-                            <option value="Teteron Cotton">Teteron Cotton</option>
-                            <option value="Cotton Modal">Cotton Modal</option>
-                            <option value="Cotton Bamboo">Cotton Bamboo</option>
-                            <option value="Cotton Supima">Cotton Supima</option>
-                            <option value="Cotton Tri-blend">Cotton Tri-blend</option>
+                            <option value="Cotton Combed">Cotton Combed 20s</option>
+                            <option value="Cotton Combed">Cotton Combed 24s</option>
+                            <option value="Cotton Combed">Cotton Combed 30s</option>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('bahan') ?>

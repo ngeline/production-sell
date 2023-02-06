@@ -17,8 +17,10 @@
                 <div class="row ">
                     <div class="col-md">
                         <h6><?= $title; ?></h6>
-                        <a role="button" id="createData" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#create-data"><i class="fas fa-edit"></i> Tambah Data</a>
-                        <?= view('admin\layouts\message-block'); ?>
+                        <?php if (in_groups('admin')) : ?>
+                            <a role="button" id="createData" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#create-data"><i class="fas fa-edit"></i> Tambah Data</a>
+                            <?= view('admin\layouts\message-block'); ?>
+                        <?php endif; ?>
                     </div>
                     <div class="col-md">
                         <form action="supplier" method="post">
@@ -40,7 +42,9 @@
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Supplier</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Alamat Supplier</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No.Handphone</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                <?php if (in_groups('admin')) : ?>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                                <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,12 +81,14 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="align-middle">
-                                        <a role="button" class="btn btn-info" data-bs-target="#editData" data-bs-toggle="modal" data-id="<?= $sup->id_sup; ?>" data-nama="<?= $sup->nama_sup; ?>" data-alamat="<?= $sup->alamat_sup; ?>" data-hp="<?= $sup->no_hp; ?>"><i class="fas fa-edit"></i> Edit Data</a>
-                                        <a role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteData<?= $sup->id_sup; ?>"><i class="fas fa-trash"></i>
-                                            Delete Data
-                                        </a>
-                                    </td>
+                                    <?php if (in_groups('admin')) : ?>
+                                        <td class="align-middle">
+                                            <a role="button" class="btn btn-info" data-bs-target="#editData" data-bs-toggle="modal" data-id="<?= $sup->id_sup; ?>" data-nama="<?= $sup->nama_sup; ?>" data-alamat="<?= $sup->alamat_sup; ?>" data-hp="<?= $sup->no_hp; ?>"><i class="fas fa-edit"></i> Edit Data</a>
+                                            <a role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteData<?= $sup->id_sup; ?>"><i class="fas fa-trash"></i>
+                                                Delete Data
+                                            </a>
+                                        </td>
+                                    <?php endif; ?>
                                 </tr>
                             <?php
                             endforeach;

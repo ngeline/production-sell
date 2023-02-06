@@ -1,5 +1,14 @@
 <?= $this->extend('admin/layouts/index'); ?>
 
+<?= $this->section('breadcrumbs'); ?>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/">Dashboard /</a></li>
+    </ol>
+    <h6 class="font-weight-bolder mb-0">Penjualan</h6>
+</nav>
+<?= $this->endSection(); ?>
+
 <?= $this->section('content-main'); ?>
 <div class="row">
     <div class="col-12">
@@ -8,7 +17,9 @@
                 <div class="row">
                     <div class="col-md">
                         <h6><?= $title; ?></h6>
-                        <a role="button" id="createData" class="btn btn-info clear" data-bs-toggle="modal" data-bs-target="#create-data"><i class="fas fa-edit"></i> Tambah Data Penjualan</a>
+                        <?php if (in_groups('admin')) : ?>
+                            <a role="button" id="createData" class="btn btn-info clear" data-bs-toggle="modal" data-bs-target="#create-data"><i class="fas fa-edit"></i> Tambah Data Penjualan</a>
+                        <?php endif; ?>
                     </div>
                     <div class="col-md">
                         <form action="penjualan" method="post">
@@ -34,7 +45,9 @@
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Barang</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Banyaknya</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Penjualan</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
+                                        <?php if (in_groups('admin')) : ?>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
+                                        <?php endif; ?>
                                     </tr>
                                 </thead>
                             </tr>
@@ -85,11 +98,12 @@
                                             </div>
                                         </div>
                                     </td>
-
-                                    <td class="align-middle">
-                                        <a role="button" class="btn btn-warning" data-bs-target="#editData" data-bs-toggle="modal" data-id="<?= $pen['id_penj']; ?>" data-market="<?= $pen['marketplace']; ?>" data-tgl="<?= $pen['tgl_inp']; ?>" data-nama="<?= $pen['id_pro']; ?>" data-banyak="<?= $pen['banyak_brg']; ?>" data-total="<?= $pen['total_penj']; ?>"><i class="fas fa-file-alt"></i> Edit Data</a>
-                                        <a role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteData<?= $pen['id_penj']; ?>"><i class="fas fa-trash"></i> Delete Data</a>
-                                    </td>
+                                    <?php if (in_groups('admin')) : ?>
+                                        <td class="align-middle">
+                                            <a role="button" class="btn btn-warning" data-bs-target="#editData" data-bs-toggle="modal" data-id="<?= $pen['id_penj']; ?>" data-market="<?= $pen['marketplace']; ?>" data-tgl="<?= $pen['tgl_inp']; ?>" data-nama="<?= $pen['id_pro']; ?>" data-banyak="<?= $pen['banyak_brg']; ?>" data-total="<?= $pen['total_penj']; ?>"><i class="fas fa-file-alt"></i> Edit Data</a>
+                                            <a role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteData<?= $pen['id_penj']; ?>"><i class="fas fa-trash"></i> Delete Data</a>
+                                        </td>
+                                    <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -115,7 +129,11 @@
                     <?= csrf_field(); ?>
                     <label>Marketplace</label>
                     <div class="input-group mb-3">
-                        <input type="text" name="marketplace" id="marketplace" class="form-control <?= (validation_show_error('marketplace') != '') ? 'is-invalid' : ''; ?>" placeholder="Marketplace Penjualan" value="<?= old('marketplace'); ?>">
+                        <select type="text" name="marketplace" id="marketplace" class="form-control <?= (validation_show_error('marketplace') != '') ? 'is-invalid' : ''; ?>">
+                            <option value="Tokopedia">Tokopedia</option>
+                            <option value="Shopee">Shopee</option>
+                            <option value="Tiktok">Tiktok</option>
+                        </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('marketplace') ?>
                         </div>
