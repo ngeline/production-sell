@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\OpnameModel;
 use App\Models\ProduksiModel;
 
 class ProduksiController extends BaseController

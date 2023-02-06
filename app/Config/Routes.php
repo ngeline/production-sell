@@ -61,7 +61,11 @@ $routes->post('opname/update/(:num)', 'OpnameController::update/$1', ['filter' =
 
 
 //Routes Penjualan
-$routes->get('penjualan', 'PenjualanController::index');
+$routes->get('penjualan', 'PenjualanController::index', ['filter' => 'role:admin,owner']);
+$routes->post('penjualan', 'PenjualanController::index', ['filter' => 'role:admin,owner']); //to search
+$routes->post('penjualan/store', 'PenjualanController::store', ['filter' => 'role:admin']);
+$routes->post('penjualan/update/(:num)', 'PenjualanController::update/$1', ['filter' => 'role:admin']);
+$routes->delete('penjualan/destroy/(:num)', 'PenjualanController::destroy/$1', ['filter' => 'role:admin']);
 
 /*
  * --------------------------------------------------------------------

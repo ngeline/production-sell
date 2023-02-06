@@ -31,6 +31,10 @@ class Opname extends Migration
                 'type' => 'INT',
                 'constraint' => 34,
             ],
+            'harga' => [
+                'type' => 'INT',
+                'constraint' => 34,
+            ],
             'ket_opn' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,

@@ -20,9 +20,9 @@ class OpnameController extends BaseController
     {
         $keyword = $this->request->getVar('keyword');
         if ($keyword) {
-            $opname = $this->opnameModel->search($keyword);
+            $opname = $this->opnameModel->select('id_opn,nama_opn,sum(jmlh_opn) as jmlh_opn,ket_opn,tgl_opn,created_at')->groupBy('nama_opn')->search($keyword);
         } else {
-            $opname = $this->opnameModel->orderBy('created_at', 'desc');
+            $opname = $this->opnameModel->select('id_opn,nama_opn,sum(jmlh_opn) as jmlh_opn,ket_opn,tgl_opn,created_at')->groupBy('nama_opn')->orderBy('created_at', 'desc');
         }
         $produksi = $this->produksiModel->select('id_pro,nama_brg,jmlh_brg')->where('status', 'selesai')->findAll();
         $currentPage = $this->request->getVar('page_opname') ? $this->request->getVar('page_opname') : 1;
@@ -73,6 +73,7 @@ class OpnameController extends BaseController
 
     public function update($id_opn)
     {
+        // dd($this->request->getVar());
         $validation = \Config\Services::validation();
         $validation->setRules([
             'id_pro' => 'required|is_unique[opname.id_pro]',
@@ -87,11 +88,20 @@ class OpnameController extends BaseController
             return redirect()->back()->withInput()->with('error', $validation->listErrors());
         }
 
-        $stok_awal = $this->opnameModel->where('id_opn', $id_opn)->first()['jmlh_opn'];
-        $stok_akhir = intval($stok_awal) + intval($this->request->getVar('jmlh_opn'));
+        // $stok_awal = $this->opnameModel->where('id_opn', $id_opn)->first()['jmlh_opn'];
+        // $stok_akhir = intval($stok_awal) + intval($this->request->getVar('jmlh_opn'));
+        // $this->opnameModel->save([
+        //     'id_opn' => $id_opn,
+        //     'jmlh_opn' => $stok_akhir,
+        // ]);
+        $opname = $this->opnameModel->where('id_opn', $id_opn)->first();
+        $produksi = $this->produksiModel->where('id_pro', $this->request->getVar('id_pro'))->first();
         $this->opnameModel->save([
-            'id_opn' => $id_opn,
-            'jmlh_opn' => $stok_akhir,
+            'id_pro' => $this->request->getVar('id_pro'),
+            'tgl_opn' => date('Y-m-d'),
+            'nama_opn' => $opname['nama_opn'],
+            'jmlh_opn' => $this->request->getVar('jmlh_opn'),
+            'ket_opn' => $opname['ket_opn'],
         ]);
 
         $this->produksiModel->save([

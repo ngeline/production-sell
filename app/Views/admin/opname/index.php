@@ -81,7 +81,7 @@
                 </div>
             </div>
             <div class="mx-3">
-                <?= $pager->links('produksi', 'customPagination') ?>
+                <?= $pager->links('opname', 'customPagination') ?>
             </div>
         </div>
     </div>
