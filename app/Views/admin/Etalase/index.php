@@ -22,7 +22,7 @@
                     <div class="col-md">
                         <form action="etalase" method="post">
                             <div class="input-group mb-3">
-                                <input style="height: 45px;" type="text" class="form-control" placeholder="Masukkan keyword pencarian..." aria-label="Masukkan keyword pencarian..." name="keyword" aria-describedby="button-addon2" value="<?= $keyword; ?>">
+                                <input style="height: 45px;" type="text" class="form-control" placeholder="Masukkan keyword pencarian..." aria-label="Masukkan keyword pencarian..." name="keyword" aria-describedby="button-addon2">
                                 <button type="submit" name="sumbit" class="btn btn-outline-secondary" type="button" id="button-addon2">Cari</button>
                             </div>
                         </form>
@@ -87,7 +87,7 @@
     </div>
 </div>
 
-<!-- Modal Create Supplier -->
+<!-- Modal Create Etalase -->
 <div class="modal fade" id="create-data" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

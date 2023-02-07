@@ -44,6 +44,15 @@ $routes->delete('supplier/destroy/(:num)', 'SupplierController::destroy/$1', ['f
 $routes->get('profile', 'ProfileController::index');
 $routes->post('profile/(:num)', 'ProfileController::update/$1');
 
+//Routes Users
+$routes->get('users', 'UsersController::index', ['filter' => 'role:owner']);
+
+//Routes Laporan Produksi
+$routes->get('laporanproduksi', 'LaporanProduksiController::index', ['filter' => 'role:owner']);
+
+//Routes Laporan Penjualan
+$routes->get('laporanpenjualan', 'LaporanPenjualanController::index', ['filter' => 'role:owner']);
+
 //Routes Produksi
 $routes->get('produksi', 'ProduksiController::index', ['filter' => 'role:pegawai']);
 $routes->post('produksi', 'ProduksiController::index', ['filter' => 'role:pegawai']); //to search

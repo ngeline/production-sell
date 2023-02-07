@@ -45,7 +45,7 @@ class Etalase extends Migration
                 'null' => true
             ],
         ]);
-        $this->forge->addKey('id_opn', true);
+        $this->forge->addKey('id_et', true);
         $this->forge->addForeignKey('id_pro', 'produksi', 'id_pro', 'CASCADE', '');
         $this->forge->createTable('etalase');
     }

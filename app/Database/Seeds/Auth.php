@@ -73,7 +73,7 @@ class Auth extends Seeder
                 'email' => 'owner@gmail.com',
                 'username' => 'owner',
                 'user_image' => 'default.png',
-                'password_hash' => '$2y$10$o1DT/NUHm4BTujdvLA7rFewbB/IgBRsPQifXQIWTke3nJxY7.NusC', //Qwertyuiop@1234
+                'password_hash' => '$2y$10$Z9J57j8DfetVfT/AepwmnOxsPhPYCqcIiEmBL83vDnaTqbNDtCJ2y', //123456789
                 'active' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
@@ -82,7 +82,7 @@ class Auth extends Seeder
                 'email' => 'admin@gmail.com',
                 'username' => 'admin',
                 'user_image' => 'default.png',
-                'password_hash' => '$2y$10$o1DT/NUHm4BTujdvLA7rFewbB/IgBRsPQifXQIWTke3nJxY7.NusC', //Qwertyuiop@1234
+                'password_hash' => '$2y$10$Z9J57j8DfetVfT/AepwmnOxsPhPYCqcIiEmBL83vDnaTqbNDtCJ2y', //123456789
                 'active' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
@@ -91,7 +91,7 @@ class Auth extends Seeder
                 'email' => 'pegawai@gmail.com',
                 'username' => 'pegawai',
                 'user_image' => 'default.png',
-                'password_hash' => '$2y$10$o1DT/NUHm4BTujdvLA7rFewbB/IgBRsPQifXQIWTke3nJxY7.NusC', //Qwertyuiop@1234
+                'password_hash' => '$2y$10$Z9J57j8DfetVfT/AepwmnOxsPhPYCqcIiEmBL83vDnaTqbNDtCJ2y', //123456789
                 'active' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
