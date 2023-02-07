@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\OpnameModel;
+use App\Models\EtalaseModel;
 use App\Models\PenjualanModel;
 use App\Models\ProduksiModel;
 
@@ -11,12 +11,12 @@ class PenjualanController extends BaseController
 {
     protected $penjualanModel;
     protected $produksiModel;
-    protected $opnameModel;
+    protected $etalaseModel;
     public function __construct()
     {
         $this->penjualanModel = new PenjualanModel();
         $this->produksiModel = new ProduksiModel();
-        $this->opnameModel = new OpnameModel();
+        $this->etalaseModel = new EtalaseModel();
     }
 
     public function index()
@@ -27,11 +27,11 @@ class PenjualanController extends BaseController
         } else {
             $penjualan = $this->penjualanModel->orderBy('created_at', 'desc');
         }
-        $produksi = $this->produksiModel->select('id_pro,nama_brg,harga')->findAll();
+        $etalase = $this->etalaseModel->select('etalase.id_pro,etalase.nama_et,p.harga,p.ukuran,etalase.jmlh_et')->join('produksi p', 'etalase.id_pro=p.id_pro')->findAll();
         $currentPage = $this->request->getVar('page_produksi') ? $this->request->getVar('page_produksi') : 1;
         $data = [
             'title' => 'Data Penjualan',
-            'produksi' => $produksi,
+            'etalase' => $etalase,
             'penjualan' => $penjualan->paginate(5, 'penjualan'),
             'pager' => $this->penjualanModel->pager,
             'currentPage' => $currentPage,
@@ -67,6 +67,12 @@ class PenjualanController extends BaseController
             return redirect()->back()->withInput()->with('error', $validation->listErrors());
         }
 
+        $sisaStock = $this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['jmlh_et'];
+        $nAkhir = intval($sisaStock) - intval($this->request->getVar('banyak'));
+        if ($nAkhir <= 0) {
+            return redirect()->back()->withInput()->with('error', 'Stok tidak mencukupi');
+        }
+
         $this->penjualanModel->save([
             'id_pro' => $this->request->getVar('nama_barang'),
             'marketplace' => $this->request->getVar('marketplace'),
@@ -76,10 +82,10 @@ class PenjualanController extends BaseController
             'total_penj' => $this->request->getVar('total_penj'),
         ]);
 
-        $stokAwal = $this->opnameModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['jmlh_opn'];
+        $stokAwal = $this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['jmlh_opn'];
         $stokAkhir = intval($stokAwal) - intval($this->request->getVar('banyak'));
 
-        $this->opnameModel->update($this->opnameModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['id_opn'], [
+        $this->etalaseModel->update($this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['id_opn'], [
             'jmlh_opn' => $stokAkhir
         ]);
 
@@ -115,7 +121,7 @@ class PenjualanController extends BaseController
         }
 
         $stokTambahan = $this->penjualanModel->where('id_penj', $id_penj)->first()['banyak_brg'];
-        $stokAwal = $this->opnameModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['jmlh_opn'];
+        $stokAwal = $this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['jmlh_opn'];
         $stokSebelumUpdate = intval($stokAwal) + intval($stokTambahan);
 
         $this->penjualanModel->save([
@@ -131,7 +137,7 @@ class PenjualanController extends BaseController
 
         $stokAkhir = $stokSebelumUpdate - intval($this->request->getVar('banyak'));
 
-        $this->opnameModel->update($this->opnameModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['id_opn'], [
+        $this->etalaseModel->update($this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['id_opn'], [
             'jmlh_opn' => $stokAkhir
         ]);
 

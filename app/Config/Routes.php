@@ -54,10 +54,16 @@ $routes->post('produksi/updateProses/(:num)', 'ProduksiController::updateProses/
 $routes->post('produksi/update/(:num)', 'ProduksiController::update/$1', ['filter' => 'role:pegawai']);
 
 //Routes Opname
-$routes->get('opname', 'OpnameController::index', ['filter' => 'role:pegawai']);
-$routes->post('opname', 'OpnameController::index', ['filter' => 'role:pegawai']); //to search
-$routes->post('opname/store', 'OpnameController::store', ['filter' => 'role:pegawai']);
-$routes->post('opname/update/(:num)', 'OpnameController::update/$1', ['filter' => 'role:pegawai']);
+// $routes->get('opname', 'OpnameController::index', ['filter' => 'role:pegawai']);
+// $routes->post('opname', 'OpnameController::index', ['filter' => 'role:pegawai']); //to search
+// $routes->post('opname/store', 'OpnameController::store', ['filter' => 'role:pegawai']);
+// $routes->post('opname/update/(:num)', 'OpnameController::update/$1', ['filter' => 'role:pegawai']);
+
+//Routes Etalase
+$routes->get('etalase', 'EtalaseController::index', ['filter' => 'role:pegawai']);
+$routes->post('etalase', 'EtalaseController::index', ['filter' => 'role:pegawai']); //to search
+$routes->post('etalase/store', 'EtalaseController::store', ['filter' => 'role:pegawai']);
+$routes->post('etalase/update/(:num)', 'EtalaseController::update/$1', ['filter' => 'role:pegawai']);
 
 
 //Routes Penjualan

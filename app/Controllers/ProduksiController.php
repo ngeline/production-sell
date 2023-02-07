@@ -39,7 +39,7 @@ class ProduksiController extends BaseController
         // dd($this->request->getVar());
         $validation = \Config\Services::validation();
         $validation->setRules([
-            'nama_brg' => 'required',
+            'nama_brg' => 'required|is_unique[produksi.nama_brg]',
             'bahan' => 'required',
             'ukuran' => 'required',
             'jmlh_brg' => 'required',
@@ -123,7 +123,7 @@ class ProduksiController extends BaseController
     {
         $validation = \Config\Services::validation();
         $validation->setRules([
-            'nama_brg' => 'required',
+            'nama_brg' => 'required|is_unique[produksi.nama_brg]',
             'bahan' => 'required',
             'ukuran' => 'required',
             'jmlh_brg' => 'required',

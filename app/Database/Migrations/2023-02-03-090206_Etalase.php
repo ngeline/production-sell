@@ -4,12 +4,12 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Opname extends Migration
+class Etalase extends Migration
 {
     public function up()
     {
         $this->forge->addField([
-            'id_opn' => [
+            'id_et' => [
                 'type' => 'INT',
                 'constraint' => 20,
                 'unsigned' => true,
@@ -20,22 +20,18 @@ class Opname extends Migration
                 'constraint' => 20,
                 'unsigned' => true,
             ],
-            'tgl_opn' => [
+            'tgl_et' => [
                 'type' => 'DATE',
             ],
-            'nama_opn' => [
+            'nama_et' => [
                 'type' => 'VARCHAR',
                 'constraint' => 60
             ],
-            'jmlh_opn' => [
+            'jmlh_et' => [
                 'type' => 'INT',
                 'constraint' => 34,
             ],
-            'harga' => [
-                'type' => 'INT',
-                'constraint' => 34,
-            ],
-            'ket_opn' => [
+            'ket_et' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
                 'null' => true
@@ -51,11 +47,11 @@ class Opname extends Migration
         ]);
         $this->forge->addKey('id_opn', true);
         $this->forge->addForeignKey('id_pro', 'produksi', 'id_pro', 'CASCADE', '');
-        $this->forge->createTable('opname');
+        $this->forge->createTable('etalase');
     }
 
     public function down()
     {
-        $this->forge->dropTable('opname');
+        $this->forge->dropTable('etalase');
     }
 }

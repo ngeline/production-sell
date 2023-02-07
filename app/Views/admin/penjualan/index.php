@@ -130,6 +130,7 @@
                     <label>Marketplace</label>
                     <div class="input-group mb-3">
                         <select type="text" name="marketplace" id="marketplace" class="form-control <?= (validation_show_error('marketplace') != '') ? 'is-invalid' : ''; ?>">
+                            <option value="" selected disabled>-Pilih-</option>
                             <option value="Tokopedia">Tokopedia</option>
                             <option value="Shopee">Shopee</option>
                             <option value="Tiktok">Tiktok</option>
@@ -149,19 +150,29 @@
                     <div class="input-group mb-3">
                         <select type="text" name="nama_barang" id="nama_barang" class="form-control <?= (validation_show_error('nama_barang') != '') ? 'is-invalid' : ''; ?>">
                             <option value="" selected disabled>-Pilih-</option>
-                            <?php foreach ($produksi as $pro) : ?>
-                                <option value="<?= $pro['id_pro']; ?>" data-harga="<?= $pro['harga']; ?>"><?= $pro['nama_brg']; ?></option>
+                            <?php foreach ($etalase as $pro) : ?>
+                                <option value="<?= $pro['id_pro']; ?>" data-harga="<?= $pro['harga']; ?>" data-stok="<?= $pro['jmlh_et']; ?>"><?= $pro['nama_et']; ?> - <?= $pro['ukuran']; ?></option>
                             <?php endforeach; ?>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('nama_barang') ?>
                         </div>
                     </div>
-                    <label>Banyaknya</label>
-                    <div class="input-group mb-3">
-                        <input type="number" name="banyak" id="banyak" class="form-control <?= (validation_show_error('banyak') != '') ? 'is-invalid' : ''; ?>" placeholder="Banyaknya" value="<?= old('banyak'); ?>">
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('banyak') ?>
+                    <div class="row">
+                        <div class="col-md">
+                            <label>Banyaknya</label>
+                            <div class="input-group mb-3">
+                                <input type="number" name="banyak" id="banyak" class="form-control <?= (validation_show_error('banyak') != '') ? 'is-invalid' : ''; ?>" placeholder="Banyaknya" value="<?= old('banyak'); ?>">
+                                <div class="invalid-feedback">
+                                    <?= validation_show_error('banyak') ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Sisa Stok</label>
+                            <div class="input-group mb-3">
+                                <input type="number" id="sisa" class="form-control" placeholder="0">
+                            </div>
                         </div>
                     </div>
                     <label>Total Penjualan</label>
@@ -192,7 +203,12 @@
                     <?= csrf_field(); ?>
                     <label>Marketplace</label>
                     <div class="input-group mb-3">
-                        <input type="text" name="marketplace" id="marketplace" class="form-control <?= (validation_show_error('marketplace') != '') ? 'is-invalid' : ''; ?>" placeholder="Marketplace Penjualan" value="<?= old('marketplace'); ?>">
+                        <select type="text" name="marketplace" id="marketplace" class="form-control <?= (validation_show_error('marketplace') != '') ? 'is-invalid' : ''; ?>">
+                            <option value="" selected disabled>-Pilih-</option>
+                            <option value="Tokopedia">Tokopedia</option>
+                            <option value="Shopee">Shopee</option>
+                            <option value="Tiktok">Tiktok</option>
+                        </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('marketplace') ?>
                         </div>
@@ -208,19 +224,29 @@
                     <div class="input-group mb-3" id="elemetSelect">
                         <select type="text" name="nama_barang" id="nama_barang_edit" class="form-control <?= (validation_show_error('nama_barang') != '') ? 'is-invalid' : ''; ?>">
                             <option value="" selected disabled>-Pilih-</option>
-                            <?php foreach ($produksi as $pro) : ?>
-                                <option value="<?= $pro['id_pro']; ?>" data-harga="<?= $pro['harga']; ?>"><?= $pro['nama_brg']; ?></option>
+                            <?php foreach ($etalase as $pro) : ?>
+                                <option value="<?= $pro['id_pro']; ?>" data-harga="<?= $pro['harga']; ?>" data-stok="<?= $pro['jmlh_et']; ?>"><?= $pro['nama_et']; ?> - <?= $pro['ukuran']; ?></option>
                             <?php endforeach; ?>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('nama_barang') ?>
                         </div>
                     </div>
-                    <label>Banyaknya</label>
-                    <div class="input-group mb-3">
-                        <input type="number" name="banyak" id="banyakEdit" class="form-control <?= (validation_show_error('banyak') != '') ? 'is-invalid' : ''; ?>" placeholder="Banyaknya" value="<?= old('banyak'); ?>">
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('banyak') ?>
+                    <div class="row">
+                        <div class="col-md">
+                            <label>Banyaknya</label>
+                            <div class="input-group mb-3">
+                                <input type="number" name="banyak" id="banyakEdit" class="form-control <?= (validation_show_error('banyak') != '') ? 'is-invalid' : ''; ?>" placeholder="Banyaknya" value="<?= old('banyak'); ?>">
+                                <div class="invalid-feedback">
+                                    <?= validation_show_error('banyak') ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Sisa Stok</label>
+                            <div class="input-group mb-3">
+                                <input type="number" id="sisaEdit" class="form-control" placeholder="0">
+                            </div>
                         </div>
                     </div>
                     <label>Total Penjualan</label>
@@ -267,17 +293,35 @@
 
 <?= $this->section('script'); ?>
 <script>
+    $("#nama_barang").on('change', function() {
+        let selectedI = this.selectedIndex;
+        var stok = this.options[selectedI].dataset.stok
+        $("#sisa").val(stok)
+    })
+
+    $("#nama_barang_edit").on('change', function() {
+        let selectedI = this.selectedIndex;
+        var stok = this.options[selectedI].dataset.stok
+        $("#sisaEdit").val(stok)
+    })
+
     $("[name='banyak']").on('keyup', function() {
         let selectedI = document.getElementById('nama_barang').selectedIndex;
         var harga = document.getElementById('nama_barang').options[selectedI].dataset.harga
+        var stok = document.getElementById('nama_barang').options[selectedI].dataset.stok
         var total = parseInt(harga) * parseInt($("[name='banyak']").val())
+        var sisaAkhir = parseInt(stok) - parseInt($("[name='banyak']").val())
+        $("#sisa").val(sisaAkhir)
         $("#total_penj").val(total)
     })
 
     $("#banyakEdit").on('keyup', function() {
         let selectedI = document.getElementById('nama_barang_edit').selectedIndex;
         var harga = document.getElementById('nama_barang_edit').options[selectedI].dataset.harga
+        var stok = document.getElementById('nama_barang_edit').options[selectedI].dataset.stok
         var total = parseInt(harga) * parseInt($("#banyakEdit").val())
+        var sisaAkhir = parseInt(stok) - parseInt($("#banyakEdit").val())
+        $("#sisaEdit").val(sisaAkhir)
         $("#total_penj_edit").val(total)
     })
 
@@ -291,20 +335,27 @@
         var total = button.data('total')
         var modal = $(this)
         modal.find('.modal-body #editDataForm').attr("action", "<?= base_url(); ?>/penjualan/update/" + id)
-        modal.find('.modal-body #marketplace').val(market)
         modal.find('.modal-body #tgl_input').val(tgl)
         modal.find('.modal-body #banyakEdit').val(banyak)
         modal.find('.modal-body #total_penj_edit').val(total)
+        var select = modal.find('.modal-body #marketplace')[0];
+        for (var i = 0; i < select.options.length; i++) {
+            if (select.options[i].value == market) {
+                select.options[i].selected = true;
+                break;
+            }
+        }
         var nama = nama;
         var select = modal.find('.modal-body #nama_barang_edit')[0];
-        console.log(select.options)
         for (var i = 0; i < select.options.length; i++) {
             if (select.options[i].value == nama) {
                 select.options[i].selected = true;
                 break;
             }
         }
-
+        let selectedI = document.getElementById('nama_barang_edit').selectedIndex;
+        var stok = document.getElementById('nama_barang_edit').options[selectedI].dataset.stok
+        $("#sisaEdit").val(stok)
     });
 </script>
 <?= $this->endSection(); ?>

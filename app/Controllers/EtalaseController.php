@@ -3,16 +3,16 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\OpnameModel;
+use App\Models\EtalaseModel;
 use App\Models\ProduksiModel;
 
 class EtalaseController extends BaseController
 {
-    protected $opnameModel;
+    protected $etalaseModel;
     protected $produksiModel;
     public function __construct()
     {
-        $this->opnameModel = new OpnameModel();
+        $this->etalaseModel = new EtalaseModel();
         $this->produksiModel = new ProduksiModel();
     }
 
@@ -20,17 +20,17 @@ class EtalaseController extends BaseController
     {
         $keyword = $this->request->getVar('keyword');
         if ($keyword) {
-            $opname = $this->opnameModel->select('id_opn,nama_opn,sum(jmlh_opn) as jmlh_opn,ket_opn,tgl_opn,created_at')->groupBy('nama_opn')->search($keyword);
+            $etalase = $this->etalaseModel->select('id_et,nama_et,sum(jmlh_et) as jmlh_et,ket_et,tgl_et,created_at')->groupBy('nama_et')->search($keyword);
         } else {
-            $opname = $this->opnameModel->select('id_opn,nama_opn,sum(jmlh_opn) as jmlh_opn,ket_opn,tgl_opn,created_at')->groupBy('nama_opn')->orderBy('created_at', 'desc');
+            $etalase = $this->etalaseModel->select('id_et,nama_et,sum(jmlh_et) as jmlh_et,ket_et,tgl_et,created_at')->groupBy('nama_et')->orderBy('created_at', 'desc');
         }
         $produksi = $this->produksiModel->select('id_pro,nama_brg,jmlh_brg')->where('status', 'selesai')->findAll();
         $currentPage = $this->request->getVar('page_etalase') ? $this->request->getVar('page_etalase') : 1;
         $data = [
             'title' => 'Data Etalase',
             'produksi' => $produksi,
-            'etalase' => $opname->paginate(5, 'etalase'),
-            'pager' => $this->opnameModel->pager,
+            'etalase' => $etalase->paginate(5, 'etalase'),
+            'pager' => $this->etalaseModel->pager,
             'currentPage' => $currentPage,
             'keyword' => $keyword
         ];
@@ -55,12 +55,12 @@ class EtalaseController extends BaseController
         }
 
         $produksi = $this->produksiModel->where('id_pro', $this->request->getVar('id_pro'))->first();
-        $this->opnameModel->save([
+        $this->etalaseModel->save([
             'id_pro' => $this->request->getVar('id_pro'),
-            'tgl_opn' => date('Y-m-d'),
-            'nama_opn' => $produksi['nama_brg'],
-            'jmlh_opn' => $this->request->getVar('jmlh_opn'),
-            'ket_opn' => $this->request->getVar('ket'),
+            'tgl_et' => date('Y-m-d'),
+            'nama_et' => $produksi['nama_brg'],
+            'jmlh_et' => $this->request->getVar('jmlh_opn'),
+            'ket_et' => $this->request->getVar('ket'),
         ]);
 
         $this->produksiModel->save([
@@ -71,16 +71,16 @@ class EtalaseController extends BaseController
         return redirect()->back()->with('success', 'Data Etalase Berhasil Ditambahkan');
     }
 
-    public function update($id_opn)
+    public function update($id_et)
     {
         // dd($this->request->getVar());
         $validation = \Config\Services::validation();
         $validation->setRules([
-            'id_pro' => 'required|is_unique[opname.id_pro]',
+            'id_pro' => 'required|is_unique[etalase.id_pro]',
         ], [
             'id_pro' => [
                 'required' => 'Barang harus diisi',
-                'is_unique' => 'Barang sudah ada di stock opname'
+                'is_unique' => 'Barang sudah ada di etalase'
             ],
         ]);
 
@@ -94,14 +94,14 @@ class EtalaseController extends BaseController
         //     'id_opn' => $id_opn,
         //     'jmlh_opn' => $stok_akhir,
         // ]);
-        $opname = $this->opnameModel->where('id_opn', $id_opn)->first();
+        $opname = $this->etalaseModel->where('id_et', $id_et)->first();
         $produksi = $this->produksiModel->where('id_pro', $this->request->getVar('id_pro'))->first();
-        $this->opnameModel->save([
+        $this->etalaseModel->save([
             'id_pro' => $this->request->getVar('id_pro'),
-            'tgl_opn' => date('Y-m-d'),
-            'nama_opn' => $opname['nama_opn'],
-            'jmlh_opn' => $this->request->getVar('jmlh_opn'),
-            'ket_opn' => $opname['ket_opn'],
+            'tgl_et' => date('Y-m-d'),
+            'nama_et' => $opname['nama_opn'],
+            'jmlh_et' => $this->request->getVar('jmlh_opn'),
+            'ket_et' => $opname['ket_opn'],
         ]);
 
         $this->produksiModel->save([
@@ -109,6 +109,6 @@ class EtalaseController extends BaseController
             'status' => 'Masuk Stock Opname'
         ]);
 
-        return redirect()->back()->with('success', 'Stok Opname Berhasil Diubah');
+        return redirect()->back()->with('success', 'Etalase Berhasil Diubah');
     }
 }
