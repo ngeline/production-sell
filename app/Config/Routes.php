@@ -2,6 +2,9 @@
 
 namespace Config;
 
+use App\Models\PenjualanModel;
+use App\Models\ProduksiModel;
+
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
@@ -32,6 +35,7 @@ $routes->setAutoRoute(false);
 
 //Routes Dashboard
 $routes->get('/', 'DashboardController::index');
+$routes->post('/', 'DashboardController::index');
 
 //Routes Supplier
 $routes->get('supplier', 'SupplierController::index', ['filter' => 'role:admin,owner']);
@@ -46,12 +50,29 @@ $routes->post('profile/(:num)', 'ProfileController::update/$1');
 
 //Routes Users
 $routes->get('users', 'UsersController::index', ['filter' => 'role:owner']);
+$routes->post('users/update/(:num)', 'UsersController::update/$1', ['filter' => 'role:owner']);
+$routes->post('users/passw/(:num)', 'UsersController::passw/$1', ['filter' => 'role:owner']);
 
 //Routes Laporan Produksi
-$routes->get('laporanproduksi', 'LaporanProduksiController::index', ['filter' => 'role:owner']);
+$routes->get('laporanproduksi', 'LaporanProduksiController::index', ['filter' => 'role:owner,admin']);
+$routes->post('laporanproduksi', 'LaporanProduksiController::index', ['filter' => 'role:owner,admin']);
+// $routes->get('/coba', function () {
+//     $ProduksiModel = new ProduksiModel();
+//     $data = $ProduksiModel->select('nama_brg,harga,bahan,ukuran,jmlh_brg,tgl_pro,status')->orderBy('created_at', 'desc')->findAll();
+//     return view('admin/laporan/produksi/viewPrint', ['data' => $data]);
+// });
+$routes->post('laporanproduksi/print', 'LaporanProduksiController::print', ['filter' => 'role:owner,admin']);
 
 //Routes Laporan Penjualan
-$routes->get('laporanpenjualan', 'LaporanPenjualanController::index', ['filter' => 'role:owner']);
+$routes->get('laporanpenjualan', 'LaporanPenjualanController::index', ['filter' => 'role:owner,admin']);
+$routes->post('laporanpenjualan', 'LaporanPenjualanController::index', ['filter' => 'role:owner,admin']);
+// $routes->get('/lap/coba', function () {
+//     $penjulanModel = new PenjualanModel();
+//     $data = $penjulanModel->orderBy('created_at', 'desc')->findAll();
+//     // dd($data);
+//     return view('admin/laporan/penjualan/viewPrint', ['data' => $data]);
+// });
+$routes->post('laporanpenjualan/print', 'LaporanPenjualanController::print', ['filter' => 'role:owner']);
 
 //Routes Produksi
 $routes->get('produksi', 'ProduksiController::index', ['filter' => 'role:pegawai']);
@@ -63,10 +84,10 @@ $routes->post('produksi/updateProses/(:num)', 'ProduksiController::updateProses/
 $routes->post('produksi/update/(:num)', 'ProduksiController::update/$1', ['filter' => 'role:pegawai']);
 
 //Routes Opname
-// $routes->get('opname', 'OpnameController::index', ['filter' => 'role:pegawai']);
-// $routes->post('opname', 'OpnameController::index', ['filter' => 'role:pegawai']); //to search
-// $routes->post('opname/store', 'OpnameController::store', ['filter' => 'role:pegawai']);
-// $routes->post('opname/update/(:num)', 'OpnameController::update/$1', ['filter' => 'role:pegawai']);
+$routes->get('opname', 'OpnameController::index', ['filter' => 'role:pegawai']);
+$routes->post('opname', 'OpnameController::index', ['filter' => 'role:pegawai']); //to search
+$routes->post('opname/store', 'OpnameController::store', ['filter' => 'role:pegawai']);
+$routes->post('opname/update/(:num)', 'OpnameController::update/$1', ['filter' => 'role:pegawai']);
 
 //Routes Etalase
 $routes->get('etalase', 'EtalaseController::index', ['filter' => 'role:pegawai']);
@@ -78,6 +99,7 @@ $routes->post('etalase/update/(:num)', 'EtalaseController::update/$1', ['filter'
 //Routes Penjualan
 $routes->get('penjualan', 'PenjualanController::index', ['filter' => 'role:admin,owner']);
 $routes->post('penjualan', 'PenjualanController::index', ['filter' => 'role:admin,owner']); //to search
+$routes->get('penjualan/getdata', 'PenjualanController::getdata', ['filter' => 'role:admin,owner']);
 $routes->post('penjualan/store', 'PenjualanController::store', ['filter' => 'role:admin']);
 $routes->post('penjualan/update/(:num)', 'PenjualanController::update/$1', ['filter' => 'role:admin']);
 $routes->delete('penjualan/destroy/(:num)', 'PenjualanController::destroy/$1', ['filter' => 'role:admin']);

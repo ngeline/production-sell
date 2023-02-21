@@ -25,8 +25,9 @@ class PenjualanModel extends Model
         return $this->table('penjualan')->like('marketplace', $keyword);
     }
 
-    public function opnameJoinProduksi()
+    public function cariDataAntara($nama_field, $nilai_minimal, $nilai_maksimal)
     {
-        // return $this->select('pro.nama_brg,pro.jmlh_brg,pro.harga')
+        $builder = $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ' . $nama_field . ' BETWEEN "' . $nilai_minimal . '" AND "' . $nilai_maksimal . '" ORDER BY tgl_inp DESC');
+        return $builder;
     }
 }

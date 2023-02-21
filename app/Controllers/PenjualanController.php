@@ -27,7 +27,7 @@ class PenjualanController extends BaseController
         } else {
             $penjualan = $this->penjualanModel->orderBy('created_at', 'desc');
         }
-        $etalase = $this->etalaseModel->select('etalase.id_pro,etalase.nama_et,p.harga,p.ukuran,etalase.jmlh_et')->join('produksi p', 'etalase.id_pro=p.id_pro')->findAll();
+        $etalase = $this->etalaseModel->select('etalase.id_pro,etalase.nama_et,p.harga,p.ukuran,etalase.jmlh_et')->join('produksi p', 'etalase.id_pro=p.id_pro')->where('etalase.jmlh_et !=', 0)->findAll();
         $currentPage = $this->request->getVar('page_produksi') ? $this->request->getVar('page_produksi') : 1;
         $data = [
             'title' => 'Data Penjualan',
@@ -69,7 +69,7 @@ class PenjualanController extends BaseController
 
         $sisaStock = $this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['jmlh_et'];
         $nAkhir = intval($sisaStock) - intval($this->request->getVar('banyak'));
-        if ($nAkhir <= 0) {
+        if ($nAkhir < 0) {
             return redirect()->back()->withInput()->with('error', 'Stok tidak mencukupi');
         }
 
@@ -82,11 +82,11 @@ class PenjualanController extends BaseController
             'total_penj' => $this->request->getVar('total_penj'),
         ]);
 
-        $stokAwal = $this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['jmlh_opn'];
+        $stokAwal = $this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['jmlh_et'];
         $stokAkhir = intval($stokAwal) - intval($this->request->getVar('banyak'));
 
-        $this->etalaseModel->update($this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['id_opn'], [
-            'jmlh_opn' => $stokAkhir
+        $this->etalaseModel->update($this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['id_et'], [
+            'jmlh_et' => $stokAkhir
         ]);
 
         return redirect()->back()->with('success', 'Berhasil Menambah Data Penjualan');
@@ -120,8 +120,14 @@ class PenjualanController extends BaseController
             return redirect()->back()->withInput()->with('error', $validation->listErrors());
         }
 
+        $penjualanAwal = $this->penjualanModel->where('id_penj', $id_penj)->first();
+
+        if ($penjualanAwal['id_pro'] != $this->request->getVar('nama_barang')) {
+            dd("disini");
+        }
+
         $stokTambahan = $this->penjualanModel->where('id_penj', $id_penj)->first()['banyak_brg'];
-        $stokAwal = $this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['jmlh_opn'];
+        $stokAwal = $this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['jmlh_et'];
         $stokSebelumUpdate = intval($stokAwal) + intval($stokTambahan);
 
         $this->penjualanModel->save([
@@ -137,16 +143,46 @@ class PenjualanController extends BaseController
 
         $stokAkhir = $stokSebelumUpdate - intval($this->request->getVar('banyak'));
 
-        $this->etalaseModel->update($this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['id_opn'], [
-            'jmlh_opn' => $stokAkhir
+        $this->etalaseModel->update($this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['id_et'], [
+            'jmlh_et' => $stokAkhir
         ]);
 
-        return redirect()->back()->with('success', 'Berhasil Update Data Penjualan');
+        return redirect()->route('penjualan')->with('success', 'Berhasil Update Data Penjualan');
     }
 
     public function destroy($id_penj)
     {
         $this->penjualanModel->where('id_penj', $id_penj)->delete();
         return redirect()->back()->with('success', 'Data Penjualan Berhasil dihapus');
+    }
+
+    public function getdata()
+    {
+        // muat library input
+        $request = service('request');
+
+        $id = $request->getGet('id');
+
+        $id_pro = $this->penjualanModel->where('id_penj', $id)->first()['id_pro'];
+
+        $listSelect = $this->etalaseModel->select('etalase.id_pro,etalase.nama_et,p.harga,p.ukuran,etalase.jmlh_et')->join('produksi p', 'etalase.id_pro=p.id_pro')->where('etalase.jmlh_et >', 0)->orWhere('etalase.id_pro', $id_pro)->findAll();
+
+        $html = '<select type="text" name="nama_barang" id="nama_barang_edit" class="form-control">';
+
+        foreach ($listSelect as $ls) {
+            if ($ls['id_pro'] == $id_pro) {
+                $html .= '<option value="' . $ls['id_pro'] . '" data-harga="' . $ls['harga'] . '" data-stok="' . $ls['jmlh_et'] . '" selected>' . $ls['nama_et'] . ' - ' . $ls['ukuran'] . '</option>';
+            } else {
+                $html .= '<option value="' . $ls['id_pro'] . '" data-harga="' . $ls['harga'] . '" data-stok="' . $ls['jmlh_et'] . '">' . $ls['nama_et'] . ' - ' . $ls['ukuran'] . '</option>';
+            }
+        }
+
+        $html .= '</select>';
+
+        $data['isi'] = $html;
+        $data['stok'] = $this->etalaseModel->select('jmlh_et')->where('id_pro', $id_pro)->first()['jmlh_et'];
+
+        // kirim data ke view
+        return $this->response->setJSON($data);
     }
 }

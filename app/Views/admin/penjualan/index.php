@@ -100,7 +100,7 @@
                                     </td>
                                     <?php if (in_groups('admin')) : ?>
                                         <td class="align-middle">
-                                            <a role="button" class="btn btn-warning" data-bs-target="#editData" data-bs-toggle="modal" data-id="<?= $pen['id_penj']; ?>" data-market="<?= $pen['marketplace']; ?>" data-tgl="<?= $pen['tgl_inp']; ?>" data-nama="<?= $pen['id_pro']; ?>" data-banyak="<?= $pen['banyak_brg']; ?>" data-total="<?= $pen['total_penj']; ?>"><i class="fas fa-file-alt"></i> Edit Data</a>
+                                            <a role="button" class="btn btn-warning" data-bs-target="#editData<?= $pen['id_penj']; ?>" data-bs-toggle="modal" data-id="<?= $pen['id_penj']; ?>" data-market="<?= $pen['marketplace']; ?>" data-tgl="<?= $pen['tgl_inp']; ?>" data-nama="<?= $pen['id_pro']; ?>" data-banyak="<?= $pen['banyak_brg']; ?>" data-total="<?= $pen['total_penj']; ?>"><i class="fas fa-file-alt"></i> Edit Data</a>
                                             <a role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteData<?= $pen['id_penj']; ?>"><i class="fas fa-trash"></i> Delete Data</a>
                                         </td>
                                     <?php endif; ?>
@@ -189,78 +189,89 @@
 </div>
 
 <!-- Modal Edit Data -->
-<div class="modal fade" id="editData" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Edit Data Penjualan</h5>
-                <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form role="form text-left" id="editDataForm" action="<?= base_url(''); ?>" method="post">
-                    <?= csrf_field(); ?>
-                    <label>Marketplace</label>
-                    <div class="input-group mb-3">
-                        <select type="text" name="marketplace" id="marketplace" class="form-control <?= (validation_show_error('marketplace') != '') ? 'is-invalid' : ''; ?>">
-                            <option value="" selected disabled>-Pilih-</option>
-                            <option value="Tokopedia">Tokopedia</option>
-                            <option value="Shopee">Shopee</option>
-                            <option value="Tiktok">Tiktok</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('marketplace') ?>
+<?php foreach ($penjualan as $pen) : ?>
+    <div class="modal fade editData" id="editData<?= $pen['id_penj']; ?>" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Edit Data Penjualan</h5>
+                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form role="form text-left" id="editDataForm" action="<?= base_url(); ?>/penjualan/update/<?= $pen['id_penj']; ?>" method="post">
+                        <?= csrf_field(); ?>
+                        <label>Marketplace</label>
+                        <div class="input-group mb-3">
+                            <select type="text" name="marketplace" id="marketplace" class="form-control <?= (validation_show_error('marketplace') != '') ? 'is-invalid' : ''; ?>">
+                                <option value="" selected disabled>-Pilih-</option>
+                                <option value="Tokopedia" <?= $pen['marketplace'] == 'Tokopedia' ? 'selected' : ''; ?>>Tokopedia</option>
+                                <option value="Shopee" <?= $pen['marketplace'] == 'Shopee' ? 'selected' : ''; ?>>Shopee</option>
+                                <option value="Tiktok" <?= $pen['marketplace'] == 'Tiktok' ? 'selected' : ''; ?>>Tiktok</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                <?= validation_show_error('marketplace') ?>
+                            </div>
                         </div>
-                    </div>
-                    <label>Tanggal Input</label>
-                    <div class="input-group mb-3">
-                        <input type="date" name="tgl_input" id="tgl_input" class="form-control <?= (validation_show_error('tgl_input') != '') ? 'is-invalid' : ''; ?>" placeholder="Tanggal Input Barang" value="<?= old('tgl_input'); ?>">
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('tgl_input') ?>
+                        <label>Tanggal Input</label>
+                        <div class="input-group mb-3">
+                            <input type="date" name="tgl_input" id="tgl_input" class="form-control <?= (validation_show_error('tgl_input') != '') ? 'is-invalid' : ''; ?>" placeholder="Tanggal Input Barang" value="<?= old('tgl_input', $pen['tgl_inp']); ?>">
+                            <div class="invalid-feedback">
+                                <?= validation_show_error('tgl_input') ?>
+                            </div>
                         </div>
-                    </div>
-                    <label>Nama Barang</label>
-                    <div class="input-group mb-3" id="elemetSelect">
-                        <select type="text" name="nama_barang" id="nama_barang_edit" class="form-control <?= (validation_show_error('nama_barang') != '') ? 'is-invalid' : ''; ?>">
-                            <option value="" selected disabled>-Pilih-</option>
-                            <?php foreach ($etalase as $pro) : ?>
-                                <option value="<?= $pro['id_pro']; ?>" data-harga="<?= $pro['harga']; ?>" data-stok="<?= $pro['jmlh_et']; ?>"><?= $pro['nama_et']; ?> - <?= $pro['ukuran']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('nama_barang') ?>
+
+
+                        <label>Nama Barang</label>
+                        <div id="modal_content"></div>
+                        <div class="input-group mb-3" id="elemetSelect">
+                            <select type="text" name="nama_barang" id="nama_barang_edit" class="form-control <?= (validation_show_error('nama_barang') != '') ? 'is-invalid' : ''; ?>">
+                                <option value="" selected disabled>-Pilih-</option>
+                                <?php
+                                $db      = \Config\Database::connect();
+                                $builder = $db->table('etalase');
+                                $data = $builder->select('etalase.id_pro,etalase.nama_et,p.harga,p.ukuran,etalase.jmlh_et')->join('produksi p', 'etalase.id_pro=p.id_pro')->where('etalase.jmlh_et >', 0)->orWhere('etalase.id_pro', $pen['id_pro'])->get();
+                                ?>
+                                <?php foreach ($data->getResultArray() as $pro) : ?>
+                                    <option value="<?= $pro['id_pro']; ?>" data-harga="<?= $pro['harga']; ?>" data-stok="<?= $pro['jmlh_et']; ?>" <?= $pen['id_pro'] == $pro['id_pro'] ? 'selected' : ''; ?>><?= $pro['nama_et']; ?> - <?= $pro['ukuran']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <div class="invalid-feedback">
+                                <?= validation_show_error('nama_barang') ?>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md">
-                            <label>Banyaknya</label>
-                            <div class="input-group mb-3">
-                                <input type="number" name="banyak" id="banyakEdit" class="form-control <?= (validation_show_error('banyak') != '') ? 'is-invalid' : ''; ?>" placeholder="Banyaknya" value="<?= old('banyak'); ?>">
-                                <div class="invalid-feedback">
-                                    <?= validation_show_error('banyak') ?>
+                        <input type="hidden" value="<?= $pen['banyak_brg']; ?>" id="jumlahAwal">
+                        <div class="row">
+                            <div class="col-md">
+                                <label>Banyaknya</label>
+                                <div class="input-group mb-3">
+                                    <input type="number" name="banyak" id="banyakEdit" class="form-control <?= (validation_show_error('banyak') != '') ? 'is-invalid' : ''; ?>" placeholder="Banyaknya" value="<?= old('banyak', $pen['banyak_brg']); ?>">
+                                    <div class="invalid-feedback">
+                                        <?= validation_show_error('banyak') ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Sisa Stok</label>
+                                <div class="input-group mb-3">
+                                    <input type="number" id="sisaEdit" class="form-control" placeholder="0">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <label>Sisa Stok</label>
-                            <div class="input-group mb-3">
-                                <input type="number" id="sisaEdit" class="form-control" placeholder="0">
-                            </div>
+                        <label>Total Penjualan</label>
+                        <div class="input-group mb-3">
+                            <input type="number" name="total_penj" id="total_penj_edit" class="form-control" placeholder="0" readonly value="<?= $pen['total_penj']; ?>">
                         </div>
-                    </div>
-                    <label>Total Penjualan</label>
-                    <div class="input-group mb-3">
-                        <input type="number" name="total_penj" id="total_penj_edit" class="form-control" placeholder="0" readonly>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn bg-gradient-info"> <i class="fas fa-save"></i> Simpan Data</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn bg-gradient-info"> <i class="fas fa-save"></i> Simpan Data</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+<?php endforeach; ?>
 
 <!-- Modal Delete Data -->
 <?php foreach ($penjualan as $pen) : ?>
@@ -319,43 +330,52 @@
         let selectedI = document.getElementById('nama_barang_edit').selectedIndex;
         var harga = document.getElementById('nama_barang_edit').options[selectedI].dataset.harga
         var stok = document.getElementById('nama_barang_edit').options[selectedI].dataset.stok
+        var jumlahAwal = $('#jumlahAwal').val()
         var total = parseInt(harga) * parseInt($("#banyakEdit").val())
-        var sisaAkhir = parseInt(stok) - parseInt($("#banyakEdit").val())
+        var sisaAkhir = parseInt(jumlahAwal) + parseInt(stok) - parseInt($("#banyakEdit").val())
         $("#sisaEdit").val(sisaAkhir)
         $("#total_penj_edit").val(total)
     })
 
-    $('#editData').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var id = button.data('id')
-        var tgl = button.data('tgl')
-        var nama = button.data('nama')
-        var market = button.data('market')
-        var banyak = button.data('banyak')
-        var total = button.data('total')
-        var modal = $(this)
-        modal.find('.modal-body #editDataForm').attr("action", "<?= base_url(); ?>/penjualan/update/" + id)
-        modal.find('.modal-body #tgl_input').val(tgl)
-        modal.find('.modal-body #banyakEdit').val(banyak)
-        modal.find('.modal-body #total_penj_edit').val(total)
-        var select = modal.find('.modal-body #marketplace')[0];
-        for (var i = 0; i < select.options.length; i++) {
-            if (select.options[i].value == market) {
-                select.options[i].selected = true;
-                break;
-            }
-        }
-        var nama = nama;
-        var select = modal.find('.modal-body #nama_barang_edit')[0];
-        for (var i = 0; i < select.options.length; i++) {
-            if (select.options[i].value == nama) {
-                select.options[i].selected = true;
-                break;
-            }
-        }
+    $('.editData').on('show.bs.modal', function(event) {
+        // var button = $(event.relatedTarget)
+        // var id = button.data('id')
+        // var tgl = button.data('tgl')
+        // var nama = button.data('nama')
+        // var market = button.data('market')
+        // var banyak = button.data('banyak')
+        // var total = button.data('total')
+        // var modal = $(this)
+        // modal.find('.modal-body #editDataForm').attr("action", "<?= base_url(); ?>/penjualan/update/" + id)
+        // modal.find('.modal-body #tgl_input').val(tgl)
+        // modal.find('.modal-body #banyakEdit').val(banyak)
+        // modal.find('.modal-body #total_penj_edit').val(total)
+        // var select = modal.find('.modal-body #marketplace')[0];
+        // for (var i = 0; i < select.options.length; i++) {
+        //     if (select.options[i].value == market) {
+        //         select.options[i].selected = true;
+        //         break;
+        //     }
+        // }
+
         let selectedI = document.getElementById('nama_barang_edit').selectedIndex;
         var stok = document.getElementById('nama_barang_edit').options[selectedI].dataset.stok
         $("#sisaEdit").val(stok)
+
+        // $.ajax({
+        //     type: 'GET',
+        //     url: 'penjualan/getdata',
+        //     data: {
+        //         id: id,
+        //     },
+        //     success: function(response) {
+        //         // var data = JSON.parse(response);
+        //         $('#modal_content').html(response.isi);
+        //     },
+        //     error: function() {
+        //         alert('Terjadi kesalahan saat memuat data');
+        //     }
+        // });
     });
 </script>
 <?= $this->endSection(); ?>

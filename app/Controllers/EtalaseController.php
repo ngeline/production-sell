@@ -95,18 +95,19 @@ class EtalaseController extends BaseController
         //     'jmlh_opn' => $stok_akhir,
         // ]);
         $opname = $this->etalaseModel->where('id_et', $id_et)->first();
+        // dd($opname);
         $produksi = $this->produksiModel->where('id_pro', $this->request->getVar('id_pro'))->first();
         $this->etalaseModel->save([
             'id_pro' => $this->request->getVar('id_pro'),
             'tgl_et' => date('Y-m-d'),
-            'nama_et' => $opname['nama_opn'],
+            'nama_et' => $opname['nama_et'],
             'jmlh_et' => $this->request->getVar('jmlh_opn'),
-            'ket_et' => $opname['ket_opn'],
+            'ket_et' => $opname['ket_et'],
         ]);
 
         $this->produksiModel->save([
             'id_pro' => $this->request->getVar('id_pro'),
-            'status' => 'Masuk Stock Opname'
+            'status' => 'Masuk Etalase'
         ]);
 
         return redirect()->back()->with('success', 'Etalase Berhasil Diubah');

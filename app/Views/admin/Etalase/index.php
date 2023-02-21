@@ -144,12 +144,15 @@
                     <?= csrf_field(); ?>
                     <label>Barang Produksi</label>
                     <div class="input-group mb-3">
-                        <select type="text" name="id_pro" class="form-control" placeholder="Nama Barang">
+                        <select type="text" name="id_pro" class="form-control <?= (validation_show_error('id_pro') != '') ? 'is-invalid' : ''; ?>">
                             <option value="" selected disabled>-Pilih-</option>
-                            <?php foreach ($produksi as $pr) : ?>
+                            <?php foreach ($produksi as $pro) : ?>
                                 <option value="<?= $pro['id_pro']; ?>" data-stock="<?= $pro['jmlh_brg']; ?>"><?= $pro['nama_brg']; ?></option>
                             <?php endforeach; ?>
                         </select>
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('id_pro') ?>
+                        </div>
                     </div>
                     <label>Stock</label>
                     <div class="input-group mb-3">

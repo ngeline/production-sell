@@ -16,7 +16,7 @@ class Produksi extends Migration
                 'auto_increment' => true,
             ],
             'tgl_pro' => [
-                'type' => 'DATETIME',
+                'type' => 'DATE',
             ],
             'nama_brg' => [
                 'type' => 'VARCHAR',

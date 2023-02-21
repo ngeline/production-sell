@@ -12,7 +12,7 @@ class OpnameModel extends Model
     protected $returnType       = 'array';
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_pro', 'tgl_opn', 'nama_opn', 'jmlh_opn', 'ket_opn'
+        'id_et', 'tgl_opn', 'nama_opn', 'jmlh_opn', 'ket_opn'
     ];
 
     // Dates
