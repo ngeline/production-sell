@@ -9,6 +9,7 @@ class ProduksiModel extends Model
     protected $table            = 'produksi';
     protected $primaryKey       = 'id_pro';
     protected $returnType       = 'array';
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
         'tgl_pro', 'nama_brg', 'bahan', 'ukuran', 'jmlh_brg', 'harga', 'ket', 'proses1', 'proses2', 'proses3', 'status'
@@ -19,6 +20,7 @@ class ProduksiModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
+    protected $deletedField  = 'deleted_at';
 
     public function search($keyword)
     {

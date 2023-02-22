@@ -123,12 +123,11 @@ class ProduksiController extends BaseController
     {
         $validation = \Config\Services::validation();
         $validation->setRules([
-            'nama_brg' => 'required|is_unique[produksi.nama_brg]',
+            'nama_brg' => 'required|is_unique[produksi.nama_brg,id_pro,' . $id_pro . ']',
             'bahan' => 'required',
             'ukuran' => 'required',
             'jmlh_brg' => 'required',
             'harga' => 'required',
-            'ket' => 'required',
         ], [
             'nama_brg' => [
                 'required' => 'Nama barang harus diisi',
@@ -144,9 +143,6 @@ class ProduksiController extends BaseController
             ],
             'harga' => [
                 'required' => 'Harga harus diisi'
-            ],
-            'ket' => [
-                'required' => 'Keterangan harus diisi'
             ],
         ]);
 

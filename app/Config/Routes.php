@@ -41,7 +41,7 @@ $routes->post('/', 'DashboardController::index');
 $routes->get('supplier', 'SupplierController::index', ['filter' => 'role:admin,owner']);
 $routes->post('supplier', 'SupplierController::index', ['filter' => 'role:admin,owner']); //to search
 $routes->post('supplier/store', 'SupplierController::store', ['filter' => 'role:admin']);
-$routes->put('supplier/update/(:num)', 'SupplierController::update/$1', ['filter' => 'role:admin']);
+$routes->post('supplier/update/(:num)', 'SupplierController::update/$1', ['filter' => 'role:admin']);
 $routes->delete('supplier/destroy/(:num)', 'SupplierController::destroy/$1', ['filter' => 'role:admin']);
 
 //Routes Profile

@@ -68,7 +68,7 @@ class SupplierController extends BaseController
     {
         $validation = \Config\Services::validation();
         $validation->setRules([
-            'nama_sup_edit' => 'required|is_unique[supplier.nama_sup]',
+            'nama_sup_edit' => 'required|is_unique[supplier.nama_sup,id_sup,' . $id_sup . ']',
             'alamat_sup_edit' => 'required',
             'no_hp_edit' => 'required',
         ], [
@@ -88,14 +88,14 @@ class SupplierController extends BaseController
             return redirect()->back()->withInput()->with('error', $validation->listErrors());
         }
 
-        $data = [
-            'nama_sup_edit' => esc($this->request->getPost('nama_sup_edit')),
-            'alamat_sup_edit' => esc($this->request->getPost('alamat_sup_edit')),
-            'no_hp_edit' => esc($this->request->getPost('no_hp_edit')),
-        ];
-        $this->SupplierModel->update($id_sup, $data);
+        $this->SupplierModel->save([
+            'id_sup' => $id_sup,
+            'nama_sup' => $this->request->getVar('nama_sup_edit'),
+            'alamat_sup' => $this->request->getVar('alamat_sup_edit'),
+            'no_hp' => $this->request->getVar('no_hp_edit'),
+        ]);
 
-        return redirect()->to('supplier')->with('success', 'Data Supplier Berhasil Diubah');
+        return redirect()->back()->with('success', 'Data Supplier Berhasil Diubah');
     }
     public function destroy($id_sup)
     {

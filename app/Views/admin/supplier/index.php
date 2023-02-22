@@ -161,7 +161,6 @@
                 <div class="modal-body">
                     <form id="formInput" role="form text-left" action="<?= base_url('supplier/update/' . $sup->id_sup); ?>" method="post">
                         <?= csrf_field(); ?>
-                        <input type="hidden" name="_method" value="PUT">
                         <label>Nama Supplier</label>
                         <div class="input-group mb-3">
                             <input type="text" name="nama_sup_edit" id="nama_sup" class="form-control <?= (validation_show_error('nama_sup_edit') != '') ? 'is-invalid' : ''; ?>" placeholder="Nama Supplier" required value="<?= old('nama_sup_edit', $sup->nama_sup); ?>">
