@@ -43,7 +43,7 @@ class Penjualan extends Migration
             'updated_at'       => ['type' => 'datetime', 'null' => true],
         ]);
         $this->forge->addKey('id_penj', true);
-        $this->forge->addForeignKey('id_pro', 'etalase', 'id_pro', 'CASCADE', '');
+        $this->forge->addForeignKey('id_pro', 'produksi', 'id_pro', 'CASCADE', '');
         $this->forge->createTable('penjualan');
     }
 
