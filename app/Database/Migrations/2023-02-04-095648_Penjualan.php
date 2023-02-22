@@ -15,7 +15,7 @@ class Penjualan extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'id_et' => [
+            'id_pro' => [
                 'type' => 'INT',
                 'constraint' => 20,
                 'unsigned' => true,
@@ -43,7 +43,7 @@ class Penjualan extends Migration
             'updated_at'       => ['type' => 'datetime', 'null' => true],
         ]);
         $this->forge->addKey('id_penj', true);
-        $this->forge->addForeignKey('id_et', 'etalase', 'id_et', 'CASCADE', '');
+        $this->forge->addForeignKey('id_pro', 'etalase', 'id_pro', 'CASCADE', '');
         $this->forge->createTable('penjualan');
     }
 
