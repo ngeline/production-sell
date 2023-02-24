@@ -90,7 +90,7 @@
                 </div>
             </div>
             <div class="float-end">
-                <a type="btn" id="submitEdit" class="btn btn-info">Ubah</a>
+                <a type="btn" id="submitEdit" class="btn btn-info <?= !empty($pro['proses2']) ? "disabled" : ""; ?>">Ubah</a>
                 <button type="submit" id="submitUpdate" class="btn btn-primary" hidden>Save</button>
             </div>
         </form>

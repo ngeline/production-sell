@@ -32,4 +32,11 @@ class ProduksiModel extends Model
         $builder = $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ' . $nama_field . ' BETWEEN "' . $nilai_minimal . '" AND "' . $nilai_maksimal . '" ORDER BY tgl_pro DESC');
         return $builder;
     }
+
+    public function whereDone()
+    {
+        $where = array('status' => 'Masuk Etalase');
+        $builder = $this->table('produksi')->where($where);
+        return $builder;
+    }
 }

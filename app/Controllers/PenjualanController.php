@@ -120,22 +120,33 @@ class PenjualanController extends BaseController
             return redirect()->back()->withInput()->with('error', $validation->listErrors());
         }
 
-        $penjualanAwal = $this->penjualanModel->where('id_penj', $id_penj)->first();
-
-        if ($penjualanAwal['id_pro'] != $this->request->getVar('nama_barang')) {
-            dd("disini");
+        $sisaStock = $this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['jmlh_et'];
+        $nAkhir = intval($sisaStock) - intval($this->request->getVar('banyak'));
+        if ($nAkhir < 0) {
+            return redirect()->back()->withInput()->with('error', 'Stok tidak mencukupi');
         }
 
-        $stokTambahan = $this->penjualanModel->where('id_penj', $id_penj)->first()['banyak_brg'];
+        $penjualanAwal = $this->penjualanModel->where('id_penj', $id_penj)->first();
+        $etalaseAwal = $this->etalaseModel->where('id_pro', $penjualanAwal['id_pro'])->first();
+        // dd(intval($etalaseAwal['jmlh_et']) + intval($penjualanAwal['banyak_brg']));
+
+
         $stokAwal = $this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['jmlh_et'];
-        $stokSebelumUpdate = intval($stokAwal) + intval($stokTambahan);
+        if ($penjualanAwal['id_pro'] != $this->request->getVar('nama_barang')) {
+            $this->etalaseModel->update($this->etalaseModel->where('id_pro', $penjualanAwal['id_pro'])->first()['id_et'], [
+                'jmlh_et' => intval($etalaseAwal['jmlh_et']) + intval($penjualanAwal['banyak_brg'])
+            ]);
+            $stokSebelumUpdate = intval($stokAwal);
+        } else {
+            $stokSebelumUpdate = intval($stokAwal) + intval($penjualanAwal['banyak_brg']);
+        }
 
         $this->penjualanModel->save([
             'id_penj' => $id_penj,
             'id_pro' => $this->request->getVar('nama_barang'),
             'marketplace' => $this->request->getVar('marketplace'),
             'tgl_inp' => $this->request->getVar('tgl_input'),
-            'nm_pro' => $this->produksiModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['nama_brg'],
+            'nm_pro' => $this->produksiModel->where('id_pro', $this->request->getVar('nama_barang'))->withDeleted()->first()['nama_brg'],
             'banyak_brg' => $this->request->getVar('banyak'),
             'total_penj' => $this->request->getVar('total_penj'),
         ]);

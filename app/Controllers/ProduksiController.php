@@ -20,7 +20,7 @@ class ProduksiController extends BaseController
         if ($keyword) {
             $produksi = $this->ProduksiModel->search($keyword);
         } else {
-            $produksi = $this->ProduksiModel->orderBy('created_at', 'desc');
+            $produksi = $this->ProduksiModel->where('status', 'Masuk Etalase')->orderBy('created_at', 'desc');
         }
         $currentPage = $this->request->getVar('page_produksi') ? $this->request->getVar('page_produksi') : 1;
 
@@ -39,7 +39,7 @@ class ProduksiController extends BaseController
         // dd($this->request->getVar());
         $validation = \Config\Services::validation();
         $validation->setRules([
-            'nama_brg' => 'required|is_unique[produksi.nama_brg]',
+            'nama_brg' => 'required',
             'bahan' => 'required',
             'ukuran' => 'required',
             'jmlh_brg' => 'required',
@@ -123,7 +123,7 @@ class ProduksiController extends BaseController
     {
         $validation = \Config\Services::validation();
         $validation->setRules([
-            'nama_brg' => 'required|is_unique[produksi.nama_brg,id_pro,' . $id_pro . ']',
+            'nama_brg' => 'required',
             'bahan' => 'required',
             'ukuran' => 'required',
             'jmlh_brg' => 'required',
@@ -148,6 +148,11 @@ class ProduksiController extends BaseController
 
         if (!$validation->withRequest($this->request)->run()) {
             return redirect()->back()->withInput()->with('error', $validation->listErrors());
+        }
+
+        $cekProses = $this->ProduksiModel->where('id_pro', $id_pro)->first()['proses2'];
+        if ($cekProses != null) {
+            return redirect()->back()->with('error', "Data sudah tidak bisa diubah");;
         }
 
         $this->ProduksiModel->save([
