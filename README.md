@@ -1,4 +1,4 @@
-# CodeIgniter 4 Application Starter
+# CodeIgniter 4 Sistem Informasi Manajemen Produksi dan Penjualan
 
 
 ## Installation
