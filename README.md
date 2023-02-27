@@ -13,11 +13,14 @@
 
 ## Login
 
+Login menggunakan akun ADMIN
 - email: admin@gmail.com
 - password: 123456789
-- 
+
+Login menggunakan akun PEGAWAI
 - email: pegawai@gmail.com
 - password: 123456789
-- 
+
+Login menggunakan akun OWNER
 - email: owner@gmail.com
 - password: 123456789
