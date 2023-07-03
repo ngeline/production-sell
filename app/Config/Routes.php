@@ -72,7 +72,7 @@ $routes->post('laporanpenjualan', 'LaporanPenjualanController::index', ['filter'
 //     // dd($data);
 //     return view('admin/laporan/penjualan/viewPrint', ['data' => $data]);
 // });
-$routes->post('laporanpenjualan/print', 'LaporanPenjualanController::print', ['filter' => 'role:owner']);
+$routes->post('laporanpenjualan/print', 'LaporanPenjualanController::print', ['filter' => 'role:owner,admin']);
 
 //Routes Produksi
 $routes->get('produksi', 'ProduksiController::index', ['filter' => 'role:pegawai']);
@@ -93,6 +93,7 @@ $routes->post('opname/update/(:num)', 'OpnameController::update/$1', ['filter' =
 $routes->get('etalase', 'EtalaseController::index', ['filter' => 'role:pegawai']);
 $routes->post('etalase', 'EtalaseController::index', ['filter' => 'role:pegawai']); //to search
 $routes->post('etalase/store', 'EtalaseController::store', ['filter' => 'role:pegawai']);
+$routes->post('etalase/gantiFoto', 'EtalaseController::gantiFoto', ['filter' => 'role:pegawai']);
 $routes->post('etalase/update/(:num)', 'EtalaseController::update/$1', ['filter' => 'role:pegawai']);
 
 

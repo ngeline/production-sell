@@ -12,7 +12,7 @@ class EtalaseModel extends Model
     protected $returnType       = 'array';
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_pro', 'tgl_et', 'nama_et', 'jmlh_et', 'ket_et'
+        'id_pro', 'tgl_et', 'nama_et', 'jmlh_et', 'ket_et', 'foto'
     ];
 
     // Dates

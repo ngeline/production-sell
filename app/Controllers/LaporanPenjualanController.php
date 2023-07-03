@@ -58,7 +58,7 @@ class LaporanPenjualanController extends BaseController
             $data = $this->penjualanModel->findAll();
         }
 
-
+        // dd($data);
         // create PDF
         $dompdf = new Dompdf();
         $html = view('admin/laporan/penjualan/viewPrint', ['data' => $data]);

@@ -38,6 +38,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No.</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Barang</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stock Barang</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
@@ -53,6 +54,15 @@
                                         <div class="d-flex px-2 py-1">
                                             <div class="d-flex flex-column justify-content-center">
                                                 <h6 class="mb-0 text-sm"><?= $i++; ?></h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <a href="javascript:;" data-bs-target="#modal-preview" data-bs-toggle="modal" data-id="<?= $opn['id_et']; ?>" data-img="<?= $opn['foto']; ?>">
+                                                    <img src="/assets/img/storages/<?= $opn['foto']; ?>" alt="foto" width="100px">
+                                                </a>
                                             </div>
                                         </div>
                                     </td>
@@ -98,7 +108,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form role="form text-left" action="<?= base_url('etalase/store'); ?>" method="post">
+                <form role="form text-left" action="<?= base_url('etalase/store'); ?>" method="post" enctype="multipart/form-data">
                     <?= csrf_field(); ?>
                     <label>Barang Produksi</label>
                     <div class="input-group mb-3">
@@ -115,6 +125,18 @@
                     <label>Stok</label>
                     <div class="input-group mb-3">
                         <input type="text" name="jmlh_opn" class="form-control" placeholder="" readonly>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="foto">Foto</label>
+                        <div class="col-sm-2">
+                            <img src="/assets/img/storages/default-cloth.png" class="img-thumbnail img-preview" alt="gambar">
+                        </div>
+                        <div class="col-sm-10">
+                            <input type="file" contenteditable="Pilih gambar" class="form-control <?= (validation_show_error('foto') != '') ? 'is-invalid' : ''; ?>" id="foto" name="foto" value="<?= old('foto'); ?>" onchange="previewImg()">
+                            <div class="invalid-feedback">
+                                <?= validation_show_error('foto') ?>
+                            </div>
+                        </div>
                     </div>
                     <label>Keterangan</label>
                     <div class="input-group mb-3">
@@ -237,7 +259,87 @@
     </div>
 <?php endforeach; ?>
 
+<!-- modal preview foto -->
+<div class="modal fade" id="modal-preview" tabindex="-1" role="dialog" aria-labelledby="modal-preview" aria-hidden="true">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Preview Foto</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <img src="" alt="foto" width="450px">
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn-ganti-foto" data-bs-target="#ganti-foto" data-bs-toggle="modal" class="btn bg-gradient-primary" data-id="" data-img="">Ganti Foto</button>
+                <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- ubah foto -->
+<div class="modal fade" id="ganti-foto" tabindex="-1" role="dialog" aria-labelledby="ganti-foto" aria-hidden="true">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Ganti Foto</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form role="form text-left" action="<?= base_url('etalase/gantiFoto'); ?>" method="post" enctype="multipart/form-data">
+                <div class="modal-body text-center">
+                    <input type="hidden" id="id" name="id">
+                    <input type="hidden" id="imgNameOld" name="imgNameOld">
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <label for="">Sebelum</label>
+                            <img src="" id="before" class="img-thumbnail" alt="gambar">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="">Sesudah</label>
+                            <img src="/assets/img/storages/default-cloth.png" class="img-thumbnail img-preview-ganti" alt="gambar">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-12">
+                            <input type="file" contenteditable="Pilih gambar" class="form-control" id="fotoGanti" name="foto" onchange="previewImgChange()">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn bg-gradient-primary">Simpan Perubahan</button>
+                    <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<?= $this->endSection(); ?>
+
+<?= $this->section('css-internal'); ?>
+<style>
+    #foto::before {
+        content: "Pilih gambar";
+        position: absolute;
+        z-index: 2;
+        display: block;
+        background-color: #ffffff;
+        width: 80px;
+    }
+
+    #fotoGanti::before {
+        content: "Pilih gambar";
+        position: absolute;
+        z-index: 2;
+        display: block;
+        background-color: #ffffff;
+        width: 80px;
+    }
+</style>
 <?= $this->endSection(); ?>
 
 <?= $this->section('script'); ?>
@@ -255,5 +357,49 @@
         var modal = $(this)
         modal.find('.modal-body #formEdit').attr("action", "<?= base_url(); ?>/etalase/update/" + id)
     });
+
+    $('#modal-preview').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var img = button.data('img')
+        var modal = $(this)
+        modal.find('.modal-body img').attr("src", "/assets/img/storages/" + img)
+        modal.find('.modal-footer #btn-ganti-foto').attr("data-id", id)
+        modal.find('.modal-footer #btn-ganti-foto').attr("data-img", img)
+    });
+
+    $('#ganti-foto').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var id = button.data('id')
+        var img = button.data('img')
+        var modal = $(this)
+        modal.find('.modal-body #id').val(id)
+        modal.find('.modal-body #before').attr("src", "/assets/img/storages/" + img)
+        modal.find('.modal-body #imgNameOld').val(img)
+    });
+
+    function previewImg() {
+        const foto = document.querySelector('#foto');
+        const imgPreview = document.querySelector('.img-preview');
+
+        const fileFoto = new FileReader();
+        fileFoto.readAsDataURL(foto.files[0]);
+
+        fileFoto.onload = function(e) {
+            imgPreview.src = e.target.result;
+        }
+    }
+
+    function previewImgChange() {
+        const foto = document.querySelector('#fotoGanti');
+        const imgPreview = document.querySelector('.img-preview-ganti');
+
+        const fileFoto = new FileReader();
+        fileFoto.readAsDataURL(foto.files[0]);
+
+        fileFoto.onload = function(e) {
+            imgPreview.src = e.target.result;
+        }
+    }
 </script>
 <?= $this->endSection(); ?>

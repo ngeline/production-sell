@@ -38,6 +38,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No.</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Keterangan</th>
@@ -54,6 +55,22 @@
                                         <div class="d-flex px-2 py-1">
                                             <div class="d-flex flex-column justify-content-center">
                                                 <h6 class="mb-0 text-sm"><?= $i++; ?></h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <?php
+                                                $db      = \Config\Database::connect();
+                                                $builder = $db->table('etalase');
+                                                $data = $builder->select('foto')->join('opname o', 'etalase.id_et=o.id_et')->Where('etalase.id_et', $opn['id_et'])->get();
+                                                ?>
+                                                <?php foreach ($data->getResultArray() as $et) : ?>
+                                                    <a href="javascript:;" data-bs-target="#modal-preview" data-bs-toggle="modal" data-img="<?= $et['foto']; ?>">
+                                                        <img src="/assets/img/storages/<?= $et['foto']; ?>" alt="foto" width="100px">
+                                                    </a>
+                                                <?php endforeach; ?>
                                             </div>
                                         </div>
                                     </td>
@@ -175,7 +192,25 @@
     </div>
 </div>
 
-
+<!-- modal preview foto -->
+<div class="modal fade" id="modal-preview" tabindex="-1" role="dialog" aria-labelledby="modal-preview" aria-hidden="true">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Preview Foto</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <img src="" alt="foto" width="450px">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <?= $this->endSection(); ?>
 
 <?= $this->section('script'); ?>
@@ -191,6 +226,13 @@
         modal.find(".modal-body [name='nama']").val(nama)
         modal.find(".modal-body [name='jmlh_opn']").val(jmlh)
         modal.find(".modal-body [name='ket']").html(ket)
+    });
+
+    $('#modal-preview').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var img = button.data('img')
+        var modal = $(this)
+        modal.find('.modal-body img').attr("src", "/assets/img/storages/" + img)
     });
 </script>
 <?= $this->endSection(); ?>

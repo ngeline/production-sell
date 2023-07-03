@@ -62,16 +62,31 @@ class DashboardController extends BaseController
             $pendapatanPerBulan[$cp['bulan'] - 1] = $cp['pendapatan'];
         }
 
-        // dd($pendapatanPerBulan);
-
-
+        $filterPenjualan = $this->request->getVar('bulan');
+        if ($filterPenjualan) {
+            $penjualan = $this->penjualanModel->select('nm_pro as nama,sum(banyak_brg) as jumlah')->where('MONTH(tgl_inp)', $filterPenjualan)->where('YEAR(tgl_inp)', date('Y'))->groupBy('nama')->orderBy('jumlah', 'desc')->paginate(3, 'penjualan');
+        } else {
+            $penjualan = $this->penjualanModel->select('nm_pro as nama,sum(banyak_brg) as jumlah')->where('YEAR(tgl_inp)', date('Y'))->groupBy('nama')->orderBy('jumlah', 'desc')->paginate(3, 'penjualan');
+        }
+        // dd(count($penjualan));
+        $topPenjualanNama = [];
+        $topPenjualanJumlah = [];
+        for ($i = 0; $i < count($penjualan); $i++) {
+            $topPenjualanNama[$i] = $penjualan[$i]['nama'];
+            $topPenjualanJumlah[$i] = $penjualan[$i]['jumlah'];
+        }
+        // dd($topPenjualanNama);
+        // dd($penjualan);
         $data = [
             'title' => 'Dashboard',
             'nProduksi' => $nProduksi[0]['total'],
             'nEtalase' => $nEtalase[0]['total'],
             'nOpname' => $nOpname[0]['total'],
+            'penjualanNama' => $topPenjualanNama,
+            'penjualanJumlah' => $topPenjualanJumlah,
             'bul' => $bul,
             'filter' => $filter,
+            'filterPenjualan' => $filterPenjualan,
             'pendapatanPerBulan' => $pendapatanPerBulan,
             'totalPenjualan' => number_format($totalPenjualan[0]['total']),
         ];

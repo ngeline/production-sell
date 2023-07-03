@@ -35,6 +35,7 @@
         <th>Tanggal Input</th>
         <th>Nama Barang</th>
         <th>Jumlah Pembelian</th>
+        <th>Ukuran</th>
         <th>Total Pemebelian</th>
     </thead>
     <tbody>
@@ -46,6 +47,16 @@
                 <td><?php echo date('d F Y', strtotime($dt['tgl_inp'])); ?></td>
                 <td><?= $dt['nm_pro']; ?></td>
                 <td><?= $dt['banyak_brg']; ?></td>
+                <td>
+                    <?php
+                    $db      = \Config\Database::connect();
+                    $builder = $db->table('produksi');
+                    $data = $builder->select('ukuran')->join('penjualan p', 'produksi.id_pro=p.id_pro')->Where('produksi.id_pro', $dt['id_pro'])->get();
+                    ?>
+                    <?php foreach ($data->getResultArray() as $pro) : ?>
+                        <?= $pro['ukuran']; ?>
+                    <?php endforeach; ?>
+                </td>
                 <td><?= $dt['total_penj']; ?></td>
             </tr>
         <?php endforeach; ?>

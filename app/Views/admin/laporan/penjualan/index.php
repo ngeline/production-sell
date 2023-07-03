@@ -48,7 +48,8 @@
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Marketplace</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Input</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Barang</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Banyaknya</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ukuran</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Penjualan</th>
                                     </tr>
                                 </thead>
@@ -90,6 +91,20 @@
                                         <div class="d-flex px-2 py-1">
                                             <div class="d-flex flex-column justify-content-center">
                                                 <h6 class="mb-0 text-sm"><?= $pen['banyak_brg']; ?></h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $db      = \Config\Database::connect();
+                                        $builder = $db->table('produksi');
+                                        $data = $builder->select('ukuran')->join('penjualan p', 'produksi.id_pro=p.id_pro')->Where('produksi.id_pro', $pen['id_pro'])->get();
+                                        ?>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <?php foreach ($data->getResultArray() as $pro) : ?>
+                                                    <h6 class="mb-0 text-sm"><?= $pro['ukuran']; ?></h6>
+                                                <?php endforeach; ?>
                                             </div>
                                         </div>
                                     </td>

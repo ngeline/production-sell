@@ -152,8 +152,82 @@
             </div>
         </div>
     </div>
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="card z-index-2">
+                <div class="card-header pb-0">
+                    <div class="row">
+                        <div class="col-md">
+                            <h6>Produk Teratas</h6>
+                        </div>
+                        <div class="col-md">
+                            <?php
+                            $currentYear = date('Y');
+                            $penjualan = new \App\Models\PenjualanModel();
+                            $bulan = $penjualan->select('MONTH(tgl_inp) as bulan')->where('YEAR(tgl_inp)', $currentYear)->groupBy('bulan')->get();
+                            ?>
+                            <form action="/" method="post">
+                                <div class="input-group">
+                                    <select class="form-control" name="bulan">
+                                        <option value="" selected>Semua</option>
+                                        <?php foreach ($bulan->getResultArray() as $bln) : ?>
+                                            <option value="<?= $bln['bulan']; ?>" <?= $filterPenjualan == $bln['bulan'] ? 'selected' : ''; ?>>
+                                                <?php
+                                                if ($bln['bulan'] == 1) {
+                                                    echo "Januari";
+                                                } elseif ($bln['bulan'] == 2) {
+                                                    echo "Februari";
+                                                } elseif ($bln['bulan'] == 3) {
+                                                    echo "Maret";
+                                                } elseif ($bln['bulan'] == 4) {
+                                                    echo "April";
+                                                } elseif ($bln['bulan'] == 5) {
+                                                    echo "Mei";
+                                                } elseif ($bln['bulan'] == 6) {
+                                                    echo "Juni";
+                                                } elseif ($bln['bulan'] == 7) {
+                                                    echo "Juli";
+                                                } elseif ($bln['bulan'] == 8) {
+                                                    echo "Agustus";
+                                                } elseif ($bln['bulan'] == 9) {
+                                                    echo "September";
+                                                } elseif ($bln['bulan'] == 10) {
+                                                    echo "Oktober";
+                                                } elseif ($bln['bulan'] == 11) {
+                                                    echo "November";
+                                                } elseif ($bln['bulan'] == 12) {
+                                                    echo "Desember";
+                                                }
+                                                ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <button type="submit" class="btn btn-outline-secondary mb-0"><i class="fas fa-filter"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-3">
+                    <div class="border-radius-lg ">
+                        <div class="chart">
+                            <canvas id="chartTopThree" class="chart-canvas" height="300px"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 <?php endif; ?>
 
+<?= $this->endSection(); ?>
+
+<?= $this->section('css-internal'); ?>
+<style>
+    #chartTopThree {
+        max-height: 400px;
+    }
+</style>
 <?= $this->endSection(); ?>
 
 <?= $this->section('script'); ?>
@@ -336,6 +410,36 @@
                 },
             },
         },
+    });
+
+    var ctx = document.getElementById('chartTopThree').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: <?php echo json_encode($penjualanNama) ?>,
+            datasets: [{
+                label: 'Penjualan',
+                data: <?php echo json_encode($penjualanJumlah) ?>, // Ganti nilai ini dengan data penjualan sesuai dengan produk Anda
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+        }
     });
 </script>
 <?= $this->endSection(); ?>

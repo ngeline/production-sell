@@ -27,7 +27,7 @@ class PenjualanController extends BaseController
         } else {
             $penjualan = $this->penjualanModel->orderBy('created_at', 'desc');
         }
-        $etalase = $this->etalaseModel->select('etalase.id_pro,etalase.nama_et,p.harga,p.ukuran,etalase.jmlh_et')->join('produksi p', 'etalase.id_pro=p.id_pro')->where('etalase.jmlh_et !=', 0)->findAll();
+        $etalase = $this->etalaseModel->select('etalase.id_pro,etalase.nama_et,p.harga,p.ukuran,etalase.jmlh_et,etalase.foto')->join('produksi p', 'etalase.id_pro=p.id_pro')->where('etalase.jmlh_et !=', 0)->findAll();
         $currentPage = $this->request->getVar('page_produksi') ? $this->request->getVar('page_produksi') : 1;
         $data = [
             'title' => 'Data Penjualan',

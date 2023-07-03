@@ -43,7 +43,8 @@
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Marketplace</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Input</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Barang</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Banyaknya</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ukuran</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Penjualan</th>
                                         <?php if (in_groups('admin')) : ?>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi</th>
@@ -88,6 +89,20 @@
                                         <div class="d-flex px-2 py-1">
                                             <div class="d-flex flex-column justify-content-center">
                                                 <h6 class="mb-0 text-sm"><?= $pen['banyak_brg']; ?></h6>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $db      = \Config\Database::connect();
+                                        $builder = $db->table('produksi');
+                                        $data = $builder->select('ukuran')->join('penjualan p', 'produksi.id_pro=p.id_pro')->Where('produksi.id_pro', $pen['id_pro'])->get();
+                                        ?>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <?php foreach ($data->getResultArray() as $pro) : ?>
+                                                    <h6 class="mb-0 text-sm"><?= $pro['ukuran']; ?></h6>
+                                                <?php endforeach; ?>
                                             </div>
                                         </div>
                                     </td>
@@ -147,17 +162,25 @@
                         </div>
                     </div>
                     <label>Nama Barang</label>
-                    <div class="input-group mb-3">
-                        <select type="text" name="nama_barang" id="nama_barang" class="form-control <?= (validation_show_error('nama_barang') != '') ? 'is-invalid' : ''; ?>">
-                            <option value="" selected disabled>-Pilih-</option>
-                            <?php foreach ($etalase as $pro) : ?>
-                                <option value="<?= $pro['id_pro']; ?>" data-harga="<?= $pro['harga']; ?>" data-stok="<?= $pro['jmlh_et']; ?>"><?= $pro['nama_et']; ?> - <?= $pro['ukuran']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <div class="invalid-feedback">
-                            <?= validation_show_error('nama_barang') ?>
+                    <div class="dropdown">
+                        <div class="input-group mb-3">
+                            <a href="javascript:;" class="btn btn-success mb-0 dropbtn" id="button-addon1">Pilih Opsi</a>
+                            <input id="selectNamaBarang" type="text" style="min-width: 383px; padding-left: 12px;" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                        </div>
+                        <div class="dropdown-content">
+                            <ul>
+                                <?php foreach ($etalase as $pro) : ?>
+                                    <li>
+                                        <img src="/assets/img/storages/<?= $pro['foto']; ?>" alt="Gambar 1">
+                                        <span data-stok="<?= $pro['jmlh_et']; ?>" data-harga="<?= $pro['harga']; ?>" data-id="<?= $pro['id_pro']; ?>"><?= $pro['nama_et']; ?> - <?= $pro['ukuran']; ?></span>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
                         </div>
                     </div>
+                    <input type="hidden" name="nama_barang" id="idBarang" value="">
+                    <input type="hidden" name="hargaBarang" id="hargaBarang" value="">
+                    <input type="hidden" name="stokBarang" id="stokBarang" value="">
                     <div class="row">
                         <div class="col-md">
                             <label>Banyaknya</label>
@@ -302,8 +325,80 @@
 
 <?= $this->endSection(); ?>
 
+<?= $this->section('css-internal'); ?>
+<style>
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropbtn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px;
+        font-size: 12px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        min-width: 480px;
+        max-height: 160px;
+        overflow-y: auto;
+        z-index: 1;
+        background-color: #f9f9f9;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    .dropdown-content ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .dropdown-content li {
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        cursor: pointer;
+    }
+
+    .dropdown-content li img {
+        width: 100px;
+        height: 100px;
+        margin-right: 8px;
+    }
+
+    .dropdown-content li:hover {
+        background-color: #e2e2e2;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+</style>
+<?= $this->endSection(); ?>
+
 <?= $this->section('script'); ?>
 <script>
+    // Hanya diperlukan jika ingin menambahkan logika tambahan
+
+    // Contoh: menampilkan teks yang dipilih saat opsi di dropdown diklik
+    document.querySelectorAll('.dropdown-content ul li').forEach(item => {
+        item.addEventListener('click', function() {
+            var stok = this.querySelector('span').getAttribute('data-stok');
+            var id = this.querySelector('span').getAttribute('data-id');
+            var harga = this.querySelector('span').getAttribute('data-harga');
+            $("#sisa").val(stok)
+            $("#idBarang").val(id)
+            $("#hargaBarang").val(harga)
+            $("#stokBarang").val(stok)
+            $("#selectNamaBarang").val(this.innerText)
+        });
+    });
+
     $("#nama_barang").on('change', function() {
         let selectedI = this.selectedIndex;
         var stok = this.options[selectedI].dataset.stok
@@ -317,9 +412,9 @@
     })
 
     $("[name='banyak']").on('keyup', function() {
-        let selectedI = document.getElementById('nama_barang').selectedIndex;
-        var harga = document.getElementById('nama_barang').options[selectedI].dataset.harga
-        var stok = document.getElementById('nama_barang').options[selectedI].dataset.stok
+        // let selectedI = document.getElementById('nama_barang').selectedIndex;
+        var harga = $('#hargaBarang').val()
+        var stok = $('#stokBarang').val()
         var total = parseInt(harga) * parseInt($("[name='banyak']").val())
         var sisaAkhir = parseInt(stok) - parseInt($("[name='banyak']").val())
         $("#sisa").val(sisaAkhir)
