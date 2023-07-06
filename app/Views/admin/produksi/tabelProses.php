@@ -1,7 +1,15 @@
 <?php
 $db      = \Config\Database::connect();
 $builder = $db->table('produksi');
-$data = $builder->where('status !=', 'Masuk Etalase')->orWhere('status', null)->where('deleted_at', null)->orderBy('created_at', 'desc')->get();
+$data = $builder->where('status !=', 'Masuk Etalase')->orWhere('status', null)
+    ->orderBy('created_at', 'desc')->get();
+
+// use App\Models\ProduksiModel;
+
+// $model = new ProduksiModel();
+// $data = $model->select('*')->where('status !=', 'Masuk Etalase')
+//     ->where('deleted_at', null)->orderBy('created_at', 'desc')->get();
+// 
 ?>
 <div class="row">
     <div class="col-12">
@@ -39,64 +47,66 @@ $data = $builder->where('status !=', 'Masuk Etalase')->orWhere('status', null)->
                         <tbody>
                             <?php $i = 1; ?>
                             <?php foreach ($data->getResultArray() as $pro) : ?>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><?= $i++; ?></h6>
+                                <?php if (empty($pro['deleted_at'])) : ?>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm"><?= $i++; ?></h6>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><?= $pro['nama_brg']; ?></h6>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm"><?= $pro['nama_brg']; ?></h6>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><?= $pro['bahan']; ?></h6>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm"><?= $pro['bahan']; ?></h6>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><?= $pro['ukuran']; ?></h6>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm"><?= $pro['ukuran']; ?></h6>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><?= $pro['jmlh_brg']; ?></h6>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm"><?= $pro['jmlh_brg']; ?></h6>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><?php echo date('d F Y', strtotime($pro['tgl_pro'])); ?></h6>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm"><?php echo date('d F Y', strtotime($pro['tgl_pro'])); ?></h6>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><?= $pro['status']; ?></h6>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm"><?= $pro['status']; ?></h6>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
+                                        </td>
 
-                                    <td class="align-middle">
-                                        <a role="button" class="btn btn-info" href="produksi/detail-produksi/<?= $pro['id_pro']; ?>"><i class="fas fa-truck"></i> Detail Proses</a>
-                                        <a role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteData<?= $pro['id_pro']; ?>"><i class="fas fa-trash"></i>
-                                            Delete Data
-                                        </a>
-                                    </td>
-                                </tr>
+                                        <td class="align-middle">
+                                            <a role="button" class="btn btn-info" href="produksi/detail-produksi/<?= $pro['id_pro']; ?>"><i class="fas fa-truck"></i> Detail Proses</a>
+                                            <a role="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteData<?= $pro['id_pro']; ?>"><i class="fas fa-trash"></i>
+                                                Delete Data
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </tbody>
                     </table>

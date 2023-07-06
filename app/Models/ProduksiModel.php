@@ -12,7 +12,7 @@ class ProduksiModel extends Model
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'tgl_pro', 'nama_brg', 'bahan', 'ukuran', 'jmlh_brg', 'harga', 'ket', 'proses1', 'proses2', 'proses3', 'status'
+        'tgl_pro', 'nama_brg', 'bahan', 'ukuran', 'jmlh_brg', 'harga', 'ket', 'proses1', 'proses2', 'proses3', 'status',
     ];
 
     // Dates
