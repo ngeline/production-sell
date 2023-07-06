@@ -15,13 +15,21 @@
         <div class="card mb-4">
             <div class="card-header pb-0">
                 <div class="row">
-                    <div class="col-md">
+                    <div class="col-md-4">
                         <h6><?= $title; ?></h6>
                         <?php if (in_groups('admin')) : ?>
                             <a role="button" id="createData" class="btn btn-info clear" data-bs-toggle="modal" data-bs-target="#create-data"><i class="fas fa-edit"></i> Tambah Data Penjualan</a>
                         <?php endif; ?>
                     </div>
-                    <div class="col-md">
+                    <div class="col-md-4">
+                        <form action="penjualan" method="post">
+                            <div class="input-group">
+                                <input style="height: 45px;" class="form-control" type="month" value="<?php echo date('Y-m') ?>" id="example-month-input" name="filter">
+                                <button type="submit" name="sumbit" class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fas fa-filter"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-4">
                         <form action="penjualan" method="post">
                             <div class="input-group mb-3">
                                 <input style="height: 45px;" type="text" class="form-control" placeholder="Masukkan keyword pencarian..." aria-label="Masukkan keyword pencarian..." name="keyword" aria-describedby="button-addon2" value="<?= $keyword; ?>">

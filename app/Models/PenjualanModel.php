@@ -22,7 +22,25 @@ class PenjualanModel extends Model
 
     public function search($keyword)
     {
-        return $this->table('penjualan')->like('marketplace', $keyword);
+        // return $this->table('penjualan')->like('marketplace', $keyword);
+        $model = new PenjualanModel();
+        $model->groupStart();
+        $kolomModel = $model->allowedFields;
+        foreach ($kolomModel as $kolom) {
+            $model->orLike($kolom, $keyword);
+        }
+        return $model->groupEnd();
+    }
+
+    public function filter($filter)
+    {
+        $bulanInp = intVal(substr($filter, 5, 2)); // Mengambil 2 karakter berikutnya untuk bulan;
+        $tahunInp = intVal(substr($filter, 0, 4)); // Mengambil 4 karakter pertama untuk tahun;
+        $model = $this->table('penjualan');
+        $model->groupStart();
+        $model->like('MONTH(tgl_inp)', $bulanInp);
+        $model->like('YEAR(tgl_inp)', $tahunInp);
+        return $model->groupEnd();
     }
 
     public function cariDataAntara($nama_field, $nilai_minimal, $nilai_maksimal)

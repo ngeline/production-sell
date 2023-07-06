@@ -53,15 +53,20 @@ class LaporanPenjualanController extends BaseController
             $until = substr($filter, 13, 10);
             // dd('Awal =' . $start, 'akhir =' . $until);
             $data = $this->penjualanModel->cariDataAntara('tgl_inp', $start, $until)->getResultArray();
+            $total = $this->penjualanModel->select('sum(banyak_brg) as totPcs,sum(total_penj) as totPenjualan')->cariDataAntara('tgl_inp', $start, $until)->getResultArray();
         } else {
             // dd('lah');
             $data = $this->penjualanModel->findAll();
+            $total = $this->penjualanModel->select('sum(banyak_brg) as totPcs,sum(total_penj) as totPenjualan')->findAll();
         }
 
         // dd($data);
         // create PDF
         $dompdf = new Dompdf();
-        $html = view('admin/laporan/penjualan/viewPrint', ['data' => $data]);
+        $html = view('admin/laporan/penjualan/viewPrint', [
+            'data' => $data,
+            'total' => $total,
+        ]);
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'potrait');
         $dompdf->render();

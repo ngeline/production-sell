@@ -36,7 +36,7 @@
         <th>Nama Barang</th>
         <th>Jumlah Pembelian</th>
         <th>Ukuran</th>
-        <th>Total Pemebelian</th>
+        <th>Total Pembelian</th>
     </thead>
     <tbody>
         <?php $i = 1 ?>
@@ -60,5 +60,13 @@
                 <td><?= $dt['total_penj']; ?></td>
             </tr>
         <?php endforeach; ?>
+        <tr>
+            <td></td>
+            <td colspan="3"><b>Total</b></td>
+            <td><?= $total[0]['totPcs']; ?></td>
+            <td></td>
+            <td style="text-align: left;"><?= $total[0]['totPenjualan']; ?></td>
+        </tr>
     </tbody>
+
 </table>

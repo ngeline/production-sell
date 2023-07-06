@@ -22,8 +22,12 @@ class PenjualanController extends BaseController
     public function index()
     {
         $keyword = $this->request->getVar('keyword');
+        $filter = $this->request->getVar('filter');
         if ($keyword) {
             $penjualan = $this->penjualanModel->search($keyword);
+        } elseif ($filter) {
+            // dd($filter);
+            $penjualan = $this->penjualanModel->filter($filter);
         } else {
             $penjualan = $this->penjualanModel->orderBy('created_at', 'desc');
         }
