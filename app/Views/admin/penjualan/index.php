@@ -24,7 +24,11 @@
                     <div class="col-md-4">
                         <form action="penjualan" method="post">
                             <div class="input-group">
-                                <input style="height: 45px;" class="form-control" type="month" value="<?php echo date('Y-m') ?>" id="example-month-input" name="filter">
+                                <input style="height: 45px;" class="form-control" type="month" value="<?php if (!empty($filter)) {
+                                                                                                            echo $filter;
+                                                                                                        } else {
+                                                                                                            echo date('Y-m');
+                                                                                                        } ?>" id="example-month-input" name="filter">
                                 <button type="submit" name="sumbit" class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fas fa-filter"></i></button>
                             </div>
                         </form>
