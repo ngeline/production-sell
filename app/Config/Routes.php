@@ -54,25 +54,35 @@ $routes->post('users/update/(:num)', 'UsersController::update/$1', ['filter' => 
 $routes->post('users/passw/(:num)', 'UsersController::passw/$1', ['filter' => 'role:owner']);
 
 //Routes Laporan Produksi
-$routes->get('laporanproduksi', 'LaporanProduksiController::index', ['filter' => 'role:owner,admin']);
-$routes->post('laporanproduksi', 'LaporanProduksiController::index', ['filter' => 'role:owner,admin']);
-// $routes->get('/coba', function () {
-//     $ProduksiModel = new ProduksiModel();
-//     $data = $ProduksiModel->select('nama_brg,harga,bahan,ukuran,jmlh_brg,tgl_pro,status')->orderBy('created_at', 'desc')->findAll();
-//     return view('admin/laporan/produksi/viewPrint', ['data' => $data]);
-// });
-$routes->post('laporanproduksi/print', 'LaporanProduksiController::print', ['filter' => 'role:owner,admin']);
+$routes->get('laporanproduksi', 'LaporanProduksiController::index', ['filter' => 'role:owner,admin,pegawai']);
+$routes->post('laporanproduksi', 'LaporanProduksiController::index', ['filter' => 'role:owner,admin,pegawai']);
+$routes->post('laporanproduksi/print', 'LaporanProduksiController::print', ['filter' => 'role:owner,admin,pegawai']);
 
 //Routes Laporan Penjualan
-$routes->get('laporanpenjualan', 'LaporanPenjualanController::index', ['filter' => 'role:owner,admin']);
-$routes->post('laporanpenjualan', 'LaporanPenjualanController::index', ['filter' => 'role:owner,admin']);
-// $routes->get('/lap/coba', function () {
-//     $penjulanModel = new PenjualanModel();
-//     $data = $penjulanModel->orderBy('created_at', 'desc')->findAll();
-//     // dd($data);
-//     return view('admin/laporan/penjualan/viewPrint', ['data' => $data]);
-// });
-$routes->post('laporanpenjualan/print', 'LaporanPenjualanController::print', ['filter' => 'role:owner,admin']);
+$routes->get('laporanpenjualan', 'LaporanPenjualanController::index', ['filter' => 'role:owner,admin,pegawai']);
+$routes->post('laporanpenjualan', 'LaporanPenjualanController::index', ['filter' => 'role:owner,admin,pegawai']);
+$routes->post('laporanpenjualan/print', 'LaporanPenjualanController::print', ['filter' => 'role:owner,admin,pegawai']);
+
+//Routes Laporan Desain
+$routes->get('laporandesain', 'LaporanDesainController::index', ['filter' => 'role:owner,admin,pegawai']);
+$routes->post('laporandesain', 'LaporanDesainController::index', ['filter' => 'role:owner,admin,pegawai']);
+$routes->post('laporandesain/print', 'LaporanDesainController::print', ['filter' => 'role:owner,admin,pegawai']);
+
+//Routes Laporan Sablon
+$routes->get('laporansablon', 'LaporanSablonController::index', ['filter' => 'role:owner,admin,pegawai']);
+$routes->post('laporansablon', 'LaporanSablonController::index', ['filter' => 'role:owner,admin,pegawai']);
+$routes->post('laporansablon/print', 'LaporanSablonController::print', ['filter' => 'role:owner,admin,pegawai']);
+
+//Routes Laporan Etalase
+$routes->get('laporanetalase', 'LaporanEtalaseController::index', ['filter' => 'role:owner,admin,pegawai']);
+$routes->post('laporanetalase', 'LaporanEtalaseController::index', ['filter' => 'role:owner,admin,pegawai']);
+$routes->post('laporanetalase/print', 'LaporanEtalaseController::print', ['filter' => 'role:owner,admin,pegawai']);
+
+//Routes Laporan Opname
+$routes->get('laporanopname', 'LaporanOpnameController::index', ['filter' => 'role:owner,admin,pegawai']);
+$routes->post('laporanopname', 'LaporanOpnameController::index', ['filter' => 'role:owner,admin,pegawai']);
+$routes->post('laporanopname/print', 'LaporanOpnameController::print', ['filter' => 'role:owner,admin,pegawai']);
+
 
 //Routes Produksi
 $routes->get('produksi', 'ProduksiController::index', ['filter' => 'role:pegawai']);

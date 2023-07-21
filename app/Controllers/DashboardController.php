@@ -27,6 +27,9 @@ class DashboardController extends BaseController
         $nProduksi = $this->produksiModel->select('sum(jmlh_brg) as total')->findAll();
         $nEtalase = $this->etalaseModel->select('sum(jmlh_et) as total')->findAll();
         $nOpname = $this->opnameModel->select('sum(jmlh_opn) as total')->findAll();
+        if (empty($nOpname[0]['total'])) {
+            $nOpname[0]['total'] = 0;
+        }
         $totalPenjualan = $this->penjualanModel->select('sum(total_penj) as total')->findAll();
 
         $db = \config\Database::connect();
@@ -75,13 +78,33 @@ class DashboardController extends BaseController
             $topPenjualanNama[$i] = $penjualan[$i]['nama'];
             $topPenjualanJumlah[$i] = $penjualan[$i]['jumlah'];
         }
-        // dd($topPenjualanNama);
-        // dd($penjualan);
+
+        //Jumlah Desain
+        $nDesain = $this->produksiModel->select('sum(jmlh_brg) as total')->where('status', 'Design')->findAll();
+        if (empty($nDesain[0]['total'])) {
+            $nDesain[0]['total'] = 0;
+        }
+        // dd($nDesain);
+        //Jumlah Sablon
+        $nSablon = $this->produksiModel->select('sum(jmlh_brg) as total')->where('status', 'Sablon')->findAll();
+        if (empty($nSablon[0]['total'])) {
+            $nSablon[0]['total'] = 0;
+        }
+        // dd($nSablon);
+        //Jumlah Terjual
+        $nPenjualan = $this->penjualanModel->select('sum(banyak_brg) as total')->findAll();
+        if (empty($nPenjualan[0]['total'])) {
+            $nPenjualan[0]['total'] = 0;
+        }
+        // dd($nPenjualan);
         $data = [
             'title' => 'Dashboard',
             'nProduksi' => $nProduksi[0]['total'],
             'nEtalase' => $nEtalase[0]['total'],
             'nOpname' => $nOpname[0]['total'],
+            'nDesain' => $nDesain[0]['total'],
+            'nSablon' => $nSablon[0]['total'],
+            'nPenjualan' => $nPenjualan[0]['total'],
             'penjualanNama' => $topPenjualanNama,
             'penjualanJumlah' => $topPenjualanJumlah,
             'bul' => $bul,

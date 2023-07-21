@@ -121,7 +121,7 @@
                                     <td>
                                         <div class="d-flex px-2 py-1">
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm"><?= $pen['total_penj']; ?></h6>
+                                                <h6 class="mb-0 text-sm"><?= number_format($pen['total_penj']); ?></h6>
                                             </div>
                                         </div>
                                     </td>
@@ -212,7 +212,7 @@
                     </div>
                     <label>Total Penjualan</label>
                     <div class="input-group mb-3">
-                        <input type="number" name="total_penj" id="total_penj" class="form-control" placeholder="0" readonly>
+                        <input type="text" name="total_penj" id="total_penj" class="form-control" placeholder="0" readonly>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn bg-gradient-info"> <i class="fas fa-save"></i> Simpan Data</button>
@@ -296,7 +296,7 @@
                         </div>
                         <label>Total Penjualan</label>
                         <div class="input-group mb-3">
-                            <input type="number" name="total_penj" id="total_penj_edit" class="form-control" placeholder="0" readonly value="<?= $pen['total_penj']; ?>">
+                            <input type="text" name="total_penj" id="total_penj_edit" class="form-control" placeholder="0" readonly value="<?= $pen['total_penj']; ?>">
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn bg-gradient-info"> <i class="fas fa-save"></i> Simpan Data</button>
@@ -395,6 +395,29 @@
 
 <?= $this->section('script'); ?>
 <script>
+    function addThousandSeparator(number) {
+        // Memastikan bahwa input adalah tipe data numerik
+        if (typeof number !== "number" && isNaN(Number(number.replace(/,/g, "")))) {
+            return "Input harus berupa angka.";
+        }
+
+        // Mengubah angka menjadi string dan menghapus koma ribuan yang sudah ada
+        const numString = number.toString().replace(/,/g, "");
+
+        // Memisahkan bagian desimal dan bagian depan angka
+        const parts = numString.split(".");
+        let integerPart = parts[0];
+        const decimalPart = parts[1] ? "." + parts[1] : "";
+
+        // Menambahkan separator ribuan
+        const separator = ",";
+        const regex = /\B(?=(\d{3})+(?!\d))/g;
+        integerPart = integerPart.replace(regex, separator);
+
+        // Menggabungkan kembali bagian desimal dan bagian depan angka yang telah diubah
+        return integerPart + decimalPart;
+    }
+
     // Hanya diperlukan jika ingin menambahkan logika tambahan
 
     // Contoh: menampilkan teks yang dipilih saat opsi di dropdown diklik
@@ -404,6 +427,8 @@
             var id = this.querySelector('span').getAttribute('data-id');
             var harga = this.querySelector('span').getAttribute('data-harga');
             $("#sisa").val(stok)
+            $("#banyak").val("")
+            $("#total_penj").val("")
             $("#idBarang").val(id)
             $("#hargaBarang").val(harga)
             $("#stokBarang").val(stok)
@@ -428,9 +453,11 @@
         var harga = $('#hargaBarang').val()
         var stok = $('#stokBarang').val()
         var total = parseInt(harga) * parseInt($("[name='banyak']").val())
+        const number = total
+        const formattedNumber = addThousandSeparator(number)
         var sisaAkhir = parseInt(stok) - parseInt($("[name='banyak']").val())
         $("#sisa").val(sisaAkhir)
-        $("#total_penj").val(total)
+        $("#total_penj").val(formattedNumber)
     })
 
     $("#banyakEdit").on('keyup', function() {
@@ -439,9 +466,12 @@
         var stok = document.getElementById('nama_barang_edit').options[selectedI].dataset.stok
         var jumlahAwal = $('#jumlahAwal').val()
         var total = parseInt(harga) * parseInt($("#banyakEdit").val())
+        const number = total
+        const formattedNumber = addThousandSeparator(number)
+        console.log(formattedNumber);
         var sisaAkhir = parseInt(jumlahAwal) + parseInt(stok) - parseInt($("#banyakEdit").val())
         $("#sisaEdit").val(sisaAkhir)
-        $("#total_penj_edit").val(total)
+        $("#total_penj_edit").val(formattedNumber)
     })
 
     $('.editData').on('show.bs.modal', function(event) {
@@ -484,5 +514,17 @@
         //     }
         // });
     });
+
+
+    function formatInput() {
+        const inputValue = this.value.replace(/,/g, ""); // Menghapus separator ribuan sebelum pemformatan
+        console.log(inputValue);
+
+        // Mengubah nilai input ke bentuk yang sudah diformat dengan separator ribuan
+        const formattedValue = addThousandSeparator(Number(inputValue));
+
+        // Mengganti isi input dengan nilai yang sudah diformat
+        inputElement.value = formattedValue;
+    }
 </script>
 <?= $this->endSection(); ?>

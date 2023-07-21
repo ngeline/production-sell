@@ -159,12 +159,12 @@
                     <div class="input-group mb-3">
                         <select type="text" name="ukuran" id="ukuran" maxlength="12" class="form-control <?= (validation_show_error('ukuran') != '') ? 'is-invalid' : ''; ?>">
                             <option value="" selected disabled>-Pilih-</option>
-                            <option value="S">S</option>
-                            <option value="M">M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                            <option value="XXL">XXL</option>
-                            <option value="XXXL">XXXL</option>
+                            <option value="S" data-harga="90000">S</option>
+                            <option value="M" data-harga="90000">M</option>
+                            <option value="L" data-harga="90000">L</option>
+                            <option value="XL" data-harga="100000">XL</option>
+                            <option value="XXL" data-harga="110000">XXL</option>
+                            <option value="XXXL" data-harga="120000">XXXL</option>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('ukuran') ?>
@@ -174,7 +174,7 @@
                         <div class="col-md">
                             <label>Jumlah Barang</label>
                             <div class="input-group mb-3">
-                                <input type="number" name="jmlh_brg" id="jmlh_brg" maxlength="12" class="form-control <?= (validation_show_error('jmlh_brg') != '') ? 'is-invalid' : ''; ?>" placeholder="Masukkan jumlah produksi" pattern="^[0-9]*$">
+                                <input type="number" name="jmlh_brg" oninput="formatInput()" id="jmlh_brg" maxlength="12" class="form-control <?= (validation_show_error('jmlh_brg') != '') ? 'is-invalid' : ''; ?>" placeholder="Masukkan jumlah produksi" pattern="^[0-9]*$">
                                 <div class="invalid-feedback">
                                     <?= validation_show_error('jmlh_brg') ?>
                                 </div>
@@ -183,7 +183,7 @@
                         <div class="col-md">
                             <label>Harga</label>
                             <div class="input-group mb-3">
-                                <input type="text" name="harga" id="harga" maxlength="12" class="form-control <?= (validation_show_error('harga') != '') ? 'is-invalid' : ''; ?>" placeholder="Masukkan nominal harga" pattern="^[0-9]*$">
+                                <input readonly type="text" name="harga" id="harga" maxlength="12" class="form-control <?= (validation_show_error('harga') != '') ? 'is-invalid' : ''; ?>" placeholder="Masukkan nominal harga" pattern="^[0-9]*$">
                                 <div class="invalid-feedback">
                                     <?= validation_show_error('harga') ?>
                                 </div>
@@ -240,4 +240,37 @@
     </div>
 <?php endforeach ?>
 
+<?= $this->endSection(); ?>
+
+<?= $this->Section('script'); ?>
+<script>
+    function addThousandSeparator(number) {
+        // Memastikan bahwa input adalah tipe data numerik
+        if (typeof number !== "number" && isNaN(Number(number.replace(/,/g, "")))) {
+            return "Input harus berupa angka.";
+        }
+
+        // Mengubah angka menjadi string dan menghapus koma ribuan yang sudah ada
+        const numString = number.toString().replace(/,/g, "");
+
+        // Memisahkan bagian desimal dan bagian depan angka
+        const parts = numString.split(".");
+        let integerPart = parts[0];
+        const decimalPart = parts[1] ? "." + parts[1] : "";
+
+        // Menambahkan separator ribuan
+        const separator = ",";
+        const regex = /\B(?=(\d{3})+(?!\d))/g;
+        integerPart = integerPart.replace(regex, separator);
+
+        // Menggabungkan kembali bagian desimal dan bagian depan angka yang telah diubah
+        return integerPart + decimalPart;
+    }
+
+    $("[name='ukuran']").on('change', function() {
+        let selectedI = this.selectedIndex;
+        const formattedNumber = addThousandSeparator(this.options[selectedI].dataset.harga)
+        $("[name='harga']").val(formattedNumber)
+    });
+</script>
 <?= $this->endSection(); ?>

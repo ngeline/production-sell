@@ -67,7 +67,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="disabledInput">Harga</label>
-                        <input type="text" id="harga" class="form-control <?= (validation_show_error('harga') != '') ? 'is-invalid' : ''; ?>" disabled value="<?= $pro['harga']; ?>" name="harga">
+                        <input type="text" id="harga" class="form-control <?= (validation_show_error('harga') != '') ? 'is-invalid' : ''; ?>" disabled value="<?= number_format($pro['harga']); ?>" name="harga">
                         <div class="invalid-feedback">
                             <?= validation_show_error('harga') ?>
                         </div>

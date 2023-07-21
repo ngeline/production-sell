@@ -57,7 +57,7 @@
                         <?= $pro['ukuran']; ?>
                     <?php endforeach; ?>
                 </td>
-                <td><?= $dt['total_penj']; ?></td>
+                <td><?= number_format($dt['total_penj']); ?></td>
             </tr>
         <?php endforeach; ?>
         <tr>

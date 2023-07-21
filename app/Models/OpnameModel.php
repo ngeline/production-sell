@@ -25,4 +25,10 @@ class OpnameModel extends Model
     {
         return $this->table('opname')->like('nama_opn', $keyword);
     }
+
+    public function cariDataAntara($nama_field, $nilai_minimal, $nilai_maksimal)
+    {
+        $builder = $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ' . $nama_field . ' BETWEEN "' . $nilai_minimal . '" AND "' . $nilai_maksimal . '" ORDER BY tgl_opn DESC');
+        return $builder;
+    }
 }
