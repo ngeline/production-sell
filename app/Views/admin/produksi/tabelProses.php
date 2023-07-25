@@ -3,18 +3,8 @@
 use App\Models\ProduksiModel;
 
 $ProduksiModel = new ProduksiModel();
-$db      = \Config\Database::connect();
-$builder = $db->table('produksi');
-// $data = $builder->where('status !=', 'Masuk Etalase')->orWhere('status', 'Selesai')
-//     ->orderBy('created_at', 'desc')->get();
 $data = $ProduksiModel->db->query('SELECT * FROM produksi WHERE status NOT IN ("Masuk Etalase", "Selesai") OR status IS NULL ORDER BY tgl_pro DESC');
 
-// use App\Models\ProduksiModel;
-
-// $model = new ProduksiModel();
-// $data = $model->select('*')->where('status !=', 'Masuk Etalase')
-//     ->where('deleted_at', null)->orderBy('created_at', 'desc')->get();
-// 
 ?>
 <div class="row">
     <div class="col-12">
