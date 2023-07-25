@@ -33,6 +33,12 @@ class ProduksiModel extends Model
         return $builder;
     }
 
+    public function cariDataAntaraKhususLapProduksi($nama_field, $nilai_minimal, $nilai_maksimal)
+    {
+        $builder = $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ' . $nama_field . ' BETWEEN "' . $nilai_minimal . '" AND "' . $nilai_maksimal . '" AND status != "Masuk Etalase" AND deleted_at IS NULL ORDER BY tgl_pro DESC');
+        return $builder;
+    }
+
     public function cariDataAntaraKhusus($nama_field, $nilai_minimal, $nilai_maksimal, $fieldWhere, $valueWhere)
     {
         $builder = $this->db->query('SELECT * FROM ' . $this->table . ' WHERE ' . $nama_field . ' BETWEEN "' . $nilai_minimal . '" AND "' . $nilai_maksimal . '" AND ' . $fieldWhere . ' = "' . $valueWhere . '" AND deleted_at IS NULL ORDER BY tgl_pro DESC');

@@ -22,9 +22,9 @@ class LaporanProduksiController extends BaseController
             $start = substr($filter, 0, 10);
             $until = substr($filter, 13, 10);
             // dd('Awal =' . $start, 'akhir =' . $until);
-            $produksi = $this->ProduksiModel->cariDataAntara('tgl_pro', $start, $until)->getResultArray();
+            $produksi = $this->ProduksiModel->cariDataAntaraKhususLapProduksi('tgl_pro', $start, $until)->getResultArray();
         } else {
-            $produksi = $this->ProduksiModel->orderBy('created_at', 'desc')->paginate(10, 'produksi');
+            $produksi = $this->ProduksiModel->where('status !=', 'Masuk Etalase')->where('deleted_at', null)->orderBy('created_at', 'desc')->paginate(10, 'produksi');
         }
 
 
@@ -52,10 +52,10 @@ class LaporanProduksiController extends BaseController
             $start = substr($filter, 0, 10);
             $until = substr($filter, 13, 10);
             // dd('Awal =' . $start, 'akhir =' . $until);
-            $data = $this->ProduksiModel->cariDataAntara('tgl_pro', $start, $until)->getResultArray();
+            $data = $this->ProduksiModel->cariDataAntaraKhususLapProduksi('tgl_pro', $start, $until)->getResultArray();
         } else {
             // dd('lah');
-            $data = $this->ProduksiModel->findAll();
+            $data = $this->ProduksiModel->db->query('SELECT * FROM produksi WHERE status != "Masuk Etalase" AND deleted_at IS NULL')->getResultArray();
         }
 
 
