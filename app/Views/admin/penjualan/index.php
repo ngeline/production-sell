@@ -193,6 +193,7 @@
                     <input type="hidden" name="nama_barang" id="idBarang" value="">
                     <input type="hidden" name="hargaBarang" id="hargaBarang" value="">
                     <input type="hidden" name="stokBarang" id="stokBarang" value="">
+                    <input type="hidden" name="totalHide">
                     <div class="row">
                         <div class="col-md">
                             <label>Banyaknya</label>
@@ -294,6 +295,7 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="totalHide">
                         <label>Total Penjualan</label>
                         <div class="input-group mb-3">
                             <input type="text" name="total_penj" id="total_penj_edit" class="form-control" placeholder="0" readonly value="<?= $pen['total_penj']; ?>">
@@ -429,6 +431,7 @@
             $("#sisa").val(stok)
             $("#banyak").val("")
             $("#total_penj").val("")
+            $("[name='totalHide']").val("")
             $("#idBarang").val(id)
             $("#hargaBarang").val(harga)
             $("#stokBarang").val(stok)
@@ -458,6 +461,7 @@
         var sisaAkhir = parseInt(stok) - parseInt($("[name='banyak']").val())
         $("#sisa").val(sisaAkhir)
         $("#total_penj").val(formattedNumber)
+        $("[name='totalHide']").val(total)
     })
 
     $("#banyakEdit").on('keyup', function() {
@@ -472,6 +476,7 @@
         var sisaAkhir = parseInt(jumlahAwal) + parseInt(stok) - parseInt($("#banyakEdit").val())
         $("#sisaEdit").val(sisaAkhir)
         $("#total_penj_edit").val(formattedNumber)
+        $("[name='totalHide']").val(total)
     })
 
     $('.editData').on('show.bs.modal', function(event) {

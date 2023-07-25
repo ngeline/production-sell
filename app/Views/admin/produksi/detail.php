@@ -34,14 +34,9 @@
                         <label for="disabledInput">Bahan</label>
                         <select type="text" id="bahan" class="form-control <?= (validation_show_error('bahan') != '') ? 'is-invalid' : ''; ?>" disabled name="bahan">
                             <option value="" selected disabled>-Pilih-</option>
-                            <option value="Cotton Combed" <?= $pro['bahan'] == 'Cotton Combed' ? 'selected' : ''; ?>>Cotton Combed</option>
-                            <option value="Cotton Carded" <?= $pro['bahan'] == 'Cotton Carded' ? 'selected' : ''; ?>>Cotton Carded</option>
-                            <option value="Polyester" <?= $pro['bahan'] == 'Polyester' ? 'selected' : ''; ?>>Polyester</option>
-                            <option value="Teteron Cotton" <?= $pro['bahan'] == 'Teteron Cotton' ? 'selected' : ''; ?>>Teteron Cotton</option>
-                            <option value="Cotton Modal" <?= $pro['bahan'] == 'Cotton Modal' ? 'selected' : ''; ?>>Cotton Modal</option>
-                            <option value="Cotton Bamboo" <?= $pro['bahan'] == 'Cotton Bamboo' ? 'selected' : ''; ?>>Cotton Bamboo</option>
-                            <option value="Cotton Supima" <?= $pro['bahan'] == 'Cotton Supima' ? 'selected' : ''; ?>>Cotton Supima</option>
-                            <option value="Cotton Tri-blend" <?= $pro['bahan'] == 'Cotton Tri-blend' ? 'selected' : ''; ?>>Cotton Tri-blend</option>
+                            <option value="Cotton Combed 20s" <?= $pro['bahan'] == 'Cotton Combed 20s' ? 'selected' : ''; ?>>Cotton Combed 20s</option>
+                            <option value="Cotton Combed 24s" <?= $pro['bahan'] == 'Cotton Combed 24s' ? 'selected' : ''; ?>>Cotton Combed 24s</option>
+                            <option value="Cotton Combed 30s" <?= $pro['bahan'] == 'Cotton Combed 30s' ? 'selected' : ''; ?>>Cotton Combed 30s</option>                    
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('bahan') ?>
@@ -52,17 +47,18 @@
                         <label for="disabledInput">Ukuran</label>
                         <select type="text" id="ukuran" class="form-control <?= (validation_show_error('ukuran') != '') ? 'is-invalid' : ''; ?>" disabled name="ukuran">
                             <option value="" selected disabled>-Pilih-</option>
-                            <option value="S" <?= $pro['ukuran'] == 'S' ? 'selected' : ''; ?>>S</option>
-                            <option value="M" <?= $pro['ukuran'] == 'M' ? 'selected' : ''; ?>>M</option>
-                            <option value="L" <?= $pro['ukuran'] == 'L' ? 'selected' : ''; ?>>L</option>
-                            <option value="XL" <?= $pro['ukuran'] == 'XL' ? 'selected' : ''; ?>>XL</option>
-                            <option value="XXL" <?= $pro['ukuran'] == 'XXL' ? 'selected' : ''; ?>>XXL</option>
-                            <option value="XXXL" <?= $pro['ukuran'] == 'XXXL' ? 'selected' : ''; ?>>XXXL</option>
+                            <option value="S" <?= $pro['ukuran'] == 'S' ? 'selected' : ''; ?> data-harga="90000">S</option>
+                            <option value="M" <?= $pro['ukuran'] == 'M' ? 'selected' : ''; ?> data-harga="90000">M</option>
+                            <option value="L" <?= $pro['ukuran'] == 'L' ? 'selected' : ''; ?> data-harga="90000">L</option>
+                            <option value="XL" <?= $pro['ukuran'] == 'XL' ? 'selected' : ''; ?> data-harga="100000">XL</option>
+                            <option value="XXL" <?= $pro['ukuran'] == 'XXL' ? 'selected' : ''; ?> data-harga="110000">XXL</option>
+                            <option value="XXXL" <?= $pro['ukuran'] == 'XXXL' ? 'selected' : ''; ?> data-harga="120000">XXXL</option>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('ukuran') ?>
                         </div>
                     </div>
+                    <input type="hidden" name="hargaHide">
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
@@ -245,5 +241,35 @@
         var replaceText = $(this).parent().hasClass("editAvailable") ? "Batal" : "Edit";
         $(this).text(replaceText);
     })
+
+    function addThousandSeparator(number) {
+        // Memastikan bahwa input adalah tipe data numerik
+        if (typeof number !== "number" && isNaN(Number(number.replace(/,/g, "")))) {
+            return "Input harus berupa angka.";
+        }
+
+        // Mengubah angka menjadi string dan menghapus koma ribuan yang sudah ada
+        const numString = number.toString().replace(/,/g, "");
+
+        // Memisahkan bagian desimal dan bagian depan angka
+        const parts = numString.split(".");
+        let integerPart = parts[0];
+        const decimalPart = parts[1] ? "." + parts[1] : "";
+
+        // Menambahkan separator ribuan
+        const separator = ",";
+        const regex = /\B(?=(\d{3})+(?!\d))/g;
+        integerPart = integerPart.replace(regex, separator);
+
+        // Menggabungkan kembali bagian desimal dan bagian depan angka yang telah diubah
+        return integerPart + decimalPart;
+    }
+
+    $("[name='ukuran']").on('change', function() {
+        let selectedI = this.selectedIndex;
+        const formattedNumber = addThousandSeparator(this.options[selectedI].dataset.harga)
+        $("[name='hargaHide']").val(this.options[selectedI].dataset.harga)
+        $("[name='harga']").val(formattedNumber)
+    });
 </script>
 <?= $this->endSection(); ?>

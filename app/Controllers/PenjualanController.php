@@ -57,10 +57,10 @@ class PenjualanController extends BaseController
                 'required' => 'Nama barang harus diisi',
             ],
             'tgl_input' => [
-                'required' => 'Bahan harus diisi'
+                'required' => 'Tanggal harus diisi'
             ],
             'marketplace' => [
-                'required' => 'Ukuran harus diisi'
+                'required' => 'Marketplace harus diisi'
             ],
             'banyak' => [
                 'required' => 'Jumlah barang harus diisi'
@@ -83,7 +83,7 @@ class PenjualanController extends BaseController
             'tgl_inp' => $this->request->getVar('tgl_input'),
             'nm_pro' => $this->produksiModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['nama_brg'],
             'banyak_brg' => $this->request->getVar('banyak'),
-            'total_penj' => $this->request->getVar('total_penj'),
+            'total_penj' => $this->request->getVar('totalHide'),
         ]);
 
         $stokAwal = $this->etalaseModel->where('id_pro', $this->request->getVar('nama_barang'))->first()['jmlh_et'];
@@ -152,7 +152,7 @@ class PenjualanController extends BaseController
             'tgl_inp' => $this->request->getVar('tgl_input'),
             'nm_pro' => $this->produksiModel->where('id_pro', $this->request->getVar('nama_barang'))->withDeleted()->first()['nama_brg'],
             'banyak_brg' => $this->request->getVar('banyak'),
-            'total_penj' => $this->request->getVar('total_penj'),
+            'total_penj' => $this->request->getVar('totalHide'),
         ]);
 
 
@@ -167,6 +167,14 @@ class PenjualanController extends BaseController
 
     public function destroy($id_penj)
     {
+        $data=$this->penjualanModel->where('id_penj', $id_penj)->first();
+        $etalase=$this->etalaseModel->where('id_pro',$data['id_pro'])->first();
+        $jumlahMula = $etalase['jmlh_et'] + $data['banyak_brg'];
+        $this->etalaseModel->save([
+            'id_et' => $etalase['id_et'],
+            'jmlh_et' => $jumlahMula
+        ]);
+        // dd($jumlahMula);
         $this->penjualanModel->where('id_penj', $id_penj)->delete();
         return redirect()->back()->with('success', 'Data Penjualan Berhasil dihapus');
     }

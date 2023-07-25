@@ -82,7 +82,8 @@ class EtalaseController extends BaseController
 
         $this->produksiModel->save([
             'id_pro' => $this->request->getVar('id_pro'),
-            'status' => 'Masuk Etalase'
+            // 'status' => 'Masuk Etalase'
+            'status' => 'Selesai'
         ]);
 
         return redirect()->back()->with('success', 'Data Etalase Berhasil Ditambahkan');
@@ -124,7 +125,8 @@ class EtalaseController extends BaseController
 
         $this->produksiModel->save([
             'id_pro' => $this->request->getVar('id_pro'),
-            'status' => 'Masuk Etalase'
+            // 'status' => 'Masuk Etalase'
+            'status' => 'Selesai'
         ]);
 
         return redirect()->back()->with('success', 'Etalase Berhasil Diubah');

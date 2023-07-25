@@ -51,7 +51,7 @@
                 <td><?= $dt['ukuran']; ?></td>
                 <td><?= $dt['jmlh_brg']; ?></td>
                 <td><?= $dt['tgl_pro']; ?></td>
-                <td><?= $dt['harga']; ?></td>
+                <td><?= number_format($dt['harga']); ?></td>
                 <td><?= $dt['status']; ?></td>
             </tr>
         <?php endforeach; ?>

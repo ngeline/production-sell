@@ -1,7 +1,7 @@
 <?php
 $db      = \Config\Database::connect();
 $builder = $db->table('produksi');
-$data = $builder->where('status !=', 'Masuk Etalase')->orWhere('status', null)
+$data = $builder->where('status !=', 'Masuk Etalase')->orWhere('status', 'Selesai')
     ->orderBy('created_at', 'desc')->get();
 
 // use App\Models\ProduksiModel;

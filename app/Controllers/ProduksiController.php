@@ -20,7 +20,8 @@ class ProduksiController extends BaseController
         if ($keyword) {
             $produksi = $this->ProduksiModel->search($keyword);
         } else {
-            $produksi = $this->ProduksiModel->where('status', 'Masuk Etalase')->orderBy('created_at', 'desc');
+            // $produksi = $this->ProduksiModel->where('status', 'Masuk Etalase')->orderBy('created_at', 'desc');
+            $produksi = $this->ProduksiModel->where('status', 'Selesai ')->orderBy('created_at', 'desc');
         }
         $currentPage = $this->request->getVar('page_produksi') ? $this->request->getVar('page_produksi') : 1;
 
@@ -76,7 +77,7 @@ class ProduksiController extends BaseController
             'bahan' => $this->request->getVar('bahan'),
             'ukuran' => $this->request->getVar('ukuran'),
             'jmlh_brg' => $this->request->getVar('jmlh_brg'),
-            'harga' => $this->request->getVar('harga'),
+            'harga' => $this->request->getVar('hargaHide'),
             'ket' => $this->request->getVar('ket'),
         ]);
 
@@ -161,7 +162,7 @@ class ProduksiController extends BaseController
             'bahan' => $this->request->getVar('bahan'),
             'ukuran' => $this->request->getVar('ukuran'),
             'jmlh_brg' => $this->request->getVar('jmlh_brg'),
-            'harga' => $this->request->getVar('harga'),
+            'harga' => $this->request->getVar('hargaHide'),
             'ket' => $this->request->getVar('ket'),
         ]);
 

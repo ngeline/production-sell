@@ -122,7 +122,7 @@
                         <span class="nav-link-text ms-1">Laporan Penjualan</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link <?= uri_string() == 'laporandesain' ? 'active' : '' ?>" href="<?= base_url('laporandesain'); ?>">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -165,7 +165,7 @@
                         </div>
                         <span class="nav-link-text ms-1">Laporan Sablon</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a class="nav-link <?= uri_string() == 'laporanetalase' ? 'active' : '' ?>" href="<?= base_url('laporanetalase'); ?>">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -329,7 +329,7 @@
                         <span class="nav-link-text ms-1">Laporan Penjualan</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link <?= uri_string() == 'laporandesain' ? 'active' : '' ?>" href="<?= base_url('laporandesain'); ?>">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -350,8 +350,8 @@
                         </div>
                         <span class="nav-link-text ms-1">Laporan Desain</span>
                     </a>
-                </li>
-                <li class="nav-item">
+                </li> -->
+                <!-- <li class="nav-item">
                     <a class="nav-link <?= uri_string() == 'laporansablon' ? 'active' : '' ?>" href="<?= base_url('laporansablon'); ?>">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -372,7 +372,7 @@
                         </div>
                         <span class="nav-link-text ms-1">Laporan Sablon</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a class="nav-link <?= uri_string() == 'laporanetalase' ? 'active' : '' ?>" href="<?= base_url('laporanetalase'); ?>">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -510,7 +510,7 @@
                         <span class="nav-link-text ms-1">Laporan Produksi</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link <?= uri_string() == 'laporanpenjualan' ? 'active' : '' ?>" href="<?= base_url('laporanpenjualan'); ?>">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -529,10 +529,10 @@
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Laporan Penjualan</span>
+                         <span class="nav-link-text ms-1">Laporan Penjualan</span>
                     </a>
-                </li>
-                <li class="nav-item">
+                </li> -->
+                <!-- <li class="nav-item">
                     <a class="nav-link <?= uri_string() == 'laporandesain' ? 'active' : '' ?>" href="<?= base_url('laporandesain'); ?>">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -575,7 +575,7 @@
                         </div>
                         <span class="nav-link-text ms-1">Laporan Sablon</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a class="nav-link <?= uri_string() == 'laporanetalase' ? 'active' : '' ?>" href="<?= base_url('laporanetalase'); ?>">
                         <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">

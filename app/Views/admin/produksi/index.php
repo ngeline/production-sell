@@ -147,9 +147,9 @@
                     <div class="input-group mb-3">
                         <select type="text" name="bahan" id="bahan" class="form-control <?= (validation_show_error('bahan') != '') ? 'is-invalid' : ''; ?>">
                             <option value="" selected disabled>-Pilih-</option>
-                            <option value="Cotton Combed">Cotton Combed 20s</option>
-                            <option value="Cotton Combed">Cotton Combed 24s</option>
-                            <option value="Cotton Combed">Cotton Combed 30s</option>
+                            <option value="Cotton Combed 20s">Cotton Combed 20s</option>
+                            <option value="Cotton Combed 24s">Cotton Combed 24s</option>
+                            <option value="Cotton Combed 30s">Cotton Combed 30s</option>
                         </select>
                         <div class="invalid-feedback">
                             <?= validation_show_error('bahan') ?>
@@ -170,6 +170,7 @@
                             <?= validation_show_error('ukuran') ?>
                         </div>
                     </div>
+                    <input type="hidden" name="hargaHide">
                     <div class="row">
                         <div class="col-md">
                             <label>Jumlah Barang</label>
@@ -270,6 +271,7 @@
     $("[name='ukuran']").on('change', function() {
         let selectedI = this.selectedIndex;
         const formattedNumber = addThousandSeparator(this.options[selectedI].dataset.harga)
+        $("[name='hargaHide']").val(this.options[selectedI].dataset.harga)
         $("[name='harga']").val(formattedNumber)
     });
 </script>

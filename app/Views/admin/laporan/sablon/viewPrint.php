@@ -28,7 +28,7 @@
     }
 </style>
 <center>
-    <h1>Laporan Data Desain</h1>
+    <h1>Laporan Data Sablon</h1>
 </center>
 <table>
     <thead>

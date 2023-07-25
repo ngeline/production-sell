@@ -34,9 +34,9 @@
         <th>Marketplace</th>
         <th>Tanggal Input</th>
         <th>Nama Barang</th>
-        <th>Jumlah Pembelian</th>
+        <th>Jumlah Barang</th>
         <th>Ukuran</th>
-        <th>Total Pembelian</th>
+        <th>Total Penjualan</th>
     </thead>
     <tbody>
         <?php $i = 1 ?>
@@ -65,7 +65,7 @@
             <td colspan="3"><b>Total</b></td>
             <td><?= $total[0]['totPcs']; ?></td>
             <td></td>
-            <td style="text-align: left;"><?= $total[0]['totPenjualan']; ?></td>
+            <td style="text-align: left;"><?= number_format($total[0]['totPenjualan']); ?></td>
         </tr>
     </tbody>
 

@@ -41,7 +41,8 @@ class ProduksiModel extends Model
 
     public function whereDone()
     {
-        $where = array('status' => 'Masuk Etalase');
+        // $where = array('status' => 'Masuk Etalase');
+        $where = array('status' => 'Selesai');
         $builder = $this->table('produksi')->where($where);
         return $builder;
     }

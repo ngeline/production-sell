@@ -46,7 +46,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No.</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Porduksi</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal Produksi</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Barang</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Bahan</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ukuran</th>

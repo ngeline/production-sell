@@ -82,7 +82,7 @@
                                     </td>
                                     <td class="align-middle">
                                         <a role="button" class="btn btn-warning clear" data-bs-target="#updateStok" data-bs-toggle="modal" data-id="<?= $opn['id_et']; ?>"><i class="fas fa-file-alt"></i> Update Stok</a>
-                                        <a role="button" class="btn btn-info" data-bs-target="#detailOpname<?= $opn['id_et']; ?>" data-bs-toggle="modal"><i class="fas fa-edit"></i> Detail Opname</a>
+                                        <a role="button" class="btn btn-info" data-bs-target="#detailOpname<?= $opn['id_et']; ?>" data-bs-toggle="modal"><i class="fas fa-edit"></i> Detail Etalase</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
